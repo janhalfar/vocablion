@@ -1,0 +1,17 @@
+---
+modulekind: commonjs
+# if you want an async api vs classic callbacks - here you are
+tsclientflavor: async
+targets:
+  edit:
+    services:
+      /service/edit: Service
+    package: github.com/janhalfar/vocablion/services/edit
+    out: client/services/edit.ts
+    tsrpc:
+      - Service
+
+mappings:
+  github.com/janhalfar/vocablion/services:
+    out: client/services/vo/services.ts
+...
