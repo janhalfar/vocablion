@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Page, Title, Input } from "../components/components";
+import { PracticeNext } from "../components/practice/Next";
 
 
 const Question = styled.h2`
@@ -25,6 +26,7 @@ const Practice = (props: {}) => {
       <Question>laudare</Question>
       <Input placeholder="..." />
       <ButtonOK>OK</ButtonOK>
+      <PracticeNext/>
     </Page>
   );
 };
