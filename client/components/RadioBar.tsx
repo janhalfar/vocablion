@@ -15,6 +15,7 @@ const RadioButton = styled.div`
   margin:.3rem;
   background-color: ${props => props.active ? "#626de6" : "grey"};
   color: white;
+  border-radius: 0.3rem;
 `;
 
 export const RadioBar = (props: {

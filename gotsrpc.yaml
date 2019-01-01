@@ -14,4 +14,6 @@ targets:
 mappings:
   github.com/janhalfar/vocablion/services:
     out: client/services/vo/services.ts
+  github.com/janhalfar/vocablion/services/edit:
+    out: client/services/vo/edit.ts
 ...

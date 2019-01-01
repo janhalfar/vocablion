@@ -57,9 +57,179 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		callStats.Service = "Service"
 	}
 	switch funcName {
-	case "UpsertWord":
+	case "AddTranslation":
 		var (
-			arg_word *github_com_janhalfar_vocablion_services.EventUpsertWord
+			arg_translation string
+		)
+		args = []interface{}{&arg_translation}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		addTranslationState, addTranslationErr := p.service.AddTranslation(w, r, arg_translation)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{addTranslationState, addTranslationErr}, callStats, r, w)
+		return
+	case "DeleteTranslation":
+		var (
+			arg_translation string
+		)
+		args = []interface{}{&arg_translation}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		deleteTranslationState, deleteTranslationErr := p.service.DeleteTranslation(w, r, arg_translation)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{deleteTranslationState, deleteTranslationErr}, callStats, r, w)
+		return
+	case "SaveWord":
+		var ()
+		args = []interface{}{}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		saveWordState, saveWordErr := p.service.SaveWord(w, r)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{saveWordState, saveWordErr}, callStats, r, w)
+		return
+	case "SetDeclination":
+		var (
+			arg_declination github_com_janhalfar_vocablion_services.Declination
+		)
+		args = []interface{}{&arg_declination}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setDeclinationState, setDeclinationErr := p.service.SetDeclination(w, r, arg_declination)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setDeclinationState, setDeclinationErr}, callStats, r, w)
+		return
+	case "SetGender":
+		var (
+			arg_gender github_com_janhalfar_vocablion_services.Gender
+		)
+		args = []interface{}{&arg_gender}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setGenderState, setGenderErr := p.service.SetGender(w, r, arg_gender)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setGenderState, setGenderErr}, callStats, r, w)
+		return
+	case "SetGenitive":
+		var (
+			arg_genitive string
+		)
+		args = []interface{}{&arg_genitive}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setGenitiveState, setGenitiveErr := p.service.SetGenitive(w, r, arg_genitive)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setGenitiveState, setGenitiveErr}, callStats, r, w)
+		return
+	case "SetType":
+		var (
+			arg_wordType github_com_janhalfar_vocablion_services.WordType
+		)
+		args = []interface{}{&arg_wordType}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setTypeState, setTypeErr := p.service.SetType(w, r, arg_wordType)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setTypeState, setTypeErr}, callStats, r, w)
+		return
+	case "SetUnit":
+		var (
+			arg_unit string
+		)
+		args = []interface{}{&arg_unit}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setUnitState, setUnitErr := p.service.SetUnit(w, r, arg_unit)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setUnitState, setUnitErr}, callStats, r, w)
+		return
+	case "SetVerbConjugation":
+		var (
+			arg_conjugation github_com_janhalfar_vocablion_services.Conjugation
+		)
+		args = []interface{}{&arg_conjugation}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setVerbConjugationState, setVerbConjugationErr := p.service.SetVerbConjugation(w, r, arg_conjugation)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setVerbConjugationState, setVerbConjugationErr}, callStats, r, w)
+		return
+	case "SetVerbExcpetions":
+		var (
+			arg_praeteritum string
+			arg_perfect     string
+			arg_ppp         string
+		)
+		args = []interface{}{&arg_praeteritum, &arg_perfect, &arg_ppp}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setVerbExcpetionsState, setVerbExcpetionsErr := p.service.SetVerbExcpetions(w, r, arg_praeteritum, arg_perfect, arg_ppp)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setVerbExcpetionsState, setVerbExcpetionsErr}, callStats, r, w)
+		return
+	case "SetWord":
+		var (
+			arg_word string
 		)
 		args = []interface{}{&arg_word}
 		err := gotsrpc.LoadArgs(&args, callStats, r)
@@ -68,11 +238,11 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 			return
 		}
 		executionStart := time.Now()
-		upsertWordErr := p.service.UpsertWord(arg_word)
+		setWordState, setWordErr := p.service.SetWord(w, r, arg_word)
 		if callStats != nil {
 			callStats.Execution = time.Now().Sub(executionStart)
 		}
-		gotsrpc.Reply([]interface{}{upsertWordErr}, callStats, r, w)
+		gotsrpc.Reply([]interface{}{setWordState, setWordErr}, callStats, r, w)
 		return
 	default:
 		gotsrpc.ClearStats(r)

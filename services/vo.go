@@ -1,23 +1,34 @@
 package services
 
-import "github.com/globalsign/mgo/bson"
-
-type EventType string
-
-const (
-	EventTypeUpsertWord EventType = "EventUpsertWord"
-	EventTypeRemoveWord EventType = "EventRemoveWord"
+import (
+	"github.com/globalsign/mgo/bson"
 )
 
 type SericeErrorCode int
 
-const SericeErrorCodeInternalError SericeErrorCode = 1
+const (
+	ServiceErrorCodeInternalError  SericeErrorCode = 1
+	ServiceErrorCodeNotImplemented SericeErrorCode = 999
+)
 
 type ServiceError struct {
 	Message string
 	Code    SericeErrorCode
 }
 
+func InternalErr(err error) *ServiceError {
+	if err != nil {
+		return Err(err.Error(), ServiceErrorCodeInternalError)
+	}
+	return nil
+}
+
+func Err(message string, code SericeErrorCode) *ServiceError {
+	return &ServiceError{
+		Message: message,
+		Code:    code,
+	}
+}
 func (se *ServiceError) Error() string {
 	if se == nil {
 		return "i am nil dumbass"
@@ -25,23 +36,12 @@ func (se *ServiceError) Error() string {
 	return se.Message
 }
 
-type EventUpsertWord struct {
-	ID   bson.ObjectId `json:"-",bson:"_id"`
-	Type EventType
-	Word *Word
-}
-type EventRemoveWord struct {
-	ID     bson.ObjectId `json:"-",bson:"_id"`
-	Type   EventType
-	WordID string
-}
-
-type Sex string
+type Gender string
 
 const (
-	SexMale   Sex = "male"
-	SexFemale Sex = "female"
-	SexNeuter Sex = "neuter"
+	GenderMale   Gender = "male"
+	GenderFemale Gender = "female"
+	GenderNeuter Gender = "neuter"
 )
 
 type Declination string
@@ -58,30 +58,66 @@ const (
 )
 
 type Noun struct {
-	Word         string
-	PluralWord   bool
-	Genitive     string
-	Translations []string
-	Sex          Sex
-	Declination  Declination
+	PluralWord bool
+	Genitive   string
+
+	Gender      Gender
+	Declination Declination
 }
 
+type Conjugation string
+
+const (
+	ConjugationA        Conjugation = "A"
+	ConjugationI        Conjugation = "I"
+	ConjugationE        Conjugation = "E"
+	ConjugationKons     Conjugation = "Kons"
+	ConjugationKonsExtI Conjugation = "KonsExtI"
+)
+
 type Verb struct {
-	Translations []string
+	Praeteritum string
+	Perfect     string
+	PPP         string
+	Conjugation Conjugation
 }
 
 type Adjective struct {
-	Translations []string
+	Declination Declination
+	Gender      Gender
 }
 
 type Pronoun struct {
-	Translations []string
 }
 
+type WordType string
+
+const (
+	WordTypeNoun      WordType = "WordTypeNoun"
+	WordTypeVerb      WordType = "WordTypeVerb"
+	WordTypePronoun   WordType = "WordTypePronoun"
+	WordTypeAdjective WordType = "WordTypeAdjective"
+)
+
 type Word struct {
-	Unit      string
+	ID           bson.ObjectId `bson:"_id"`
+	Unit         string
+	Word         string
+	Translations []string
+	// Shapes       []string
 	Noun      *Noun
 	Verb      *Verb
 	Adjective *Adjective
 	Pronoun   *Pronoun
+}
+
+type User struct {
+	Email string
+	Name  string
+}
+
+type TestResult struct {
+	Success  bool
+	Feedback []string
+	Score    float64
 }

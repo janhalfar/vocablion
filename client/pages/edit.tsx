@@ -3,42 +3,55 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Page, Title } from "../components/components";
 import { State } from "../store";
-import { EditState, WordType } from "../reducers/edit";
 import { RadioBar } from "../components/RadioBar";
-import { actionEditSetType } from "../actions";
+import { actionEditSet } from "../actions";
 import { GoConst } from "../services/vo/services";
 import { EditorNoun } from "../components/EditorNoun";
+import { getClient } from "../transport";
+import { ServiceClient } from "../services/edit";
+import { EditState } from "../services/vo/edit";
+import { EditorVerb } from "../components/EditorVerb";
+import { EditorAdjective } from "../components/EditorAdjective";
+import { EditorUnit } from "../components/EditorUnit";
 
-const editorForType = (wordType:WordType) => {
+const editorForType = (wordType:string) => {
   switch(wordType) {
-    case WordType.Noun: return <EditorNoun/>;
+    case GoConst.WordTypeNoun: return <EditorNoun/>;
+    case GoConst.WordTypeVerb: return <EditorVerb/>;
+    case GoConst.WordTypeAdjective: return <EditorAdjective/>;
+    default: return <h2>Select a word type</h2>;
   }
 }
 
-const Edit = (props: EditState & {setWordType:(wordType:WordType)=> void;}) => {
+const Edit = (props: EditState & {setWordType:(wordType:string)=> void;}) => {
   return (
     <Page>
       <Title>Edit</Title>
+      <EditorUnit/>
       <RadioBar
         onChangeSelection={s => {
           props.setWordType(s);
         }}
         options={[
-          { label: "Noun", value: WordType.Noun },
-          { label: "Verb", value: WordType.Verb},
-          { label: "Adjective", value: WordType.Adjective},
-          { label: "Pronoun", value: WordType.Pronoun },
+          { label: "Noun", value: GoConst.WordTypeNoun },
+          { label: "Verb", value: GoConst.WordTypeVerb},
+          { label: "Adjective", value: GoConst.WordTypeAdjective},
+          { label: "Pronoun", value: GoConst.WordTypePronoun },
         ]}
-        selection={props.wordType}
-        />
-      {editorForType(props.wordType)}
+        selection={props.WordType}
+      />
+      {editorForType(props.WordType)}
     </Page>
   );
 };
 
 export default connect((state: State) => state.edit,
  dispatch => ({
-    setWordType: (wordType:WordType) => {
-      dispatch(actionEditSetType(wordType));
+    setWordType: async (wordType:string) => {
+      try {
+        dispatch(actionEditSet(await getClient(ServiceClient).setType(wordType)));
+      } catch(e) {
+        console.error(e);
+      }
     }
   }))(Edit);

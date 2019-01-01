@@ -10,7 +10,17 @@ import (
 )
 
 type ServiceGoTSRPCClient interface {
-	UpsertWord(word *github_com_janhalfar_vocablion_services.EventUpsertWord) (err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	AddTranslation(translation string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	DeleteTranslation(translation string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SaveWord() (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetDeclination(declination github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetGender(gender github_com_janhalfar_vocablion_services.Gender) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetGenitive(genitive string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetType(wordType github_com_janhalfar_vocablion_services.WordType) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetUnit(unit string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetVerbConjugation(conjugation github_com_janhalfar_vocablion_services.Conjugation) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetVerbExcpetions(praeteritum string, perfect string, ppp string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetWord(word string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetClientEncoding(encoding gotsrpc.ClientEncoding)
 	SetTransportHttpClient(client *http.Client)
 }
@@ -44,9 +54,79 @@ func (tsc *tsrpcServiceGoTSRPCClient) SetClientEncoding(encoding gotsrpc.ClientE
 func (tsc *tsrpcServiceGoTSRPCClient) SetTransportHttpClient(client *http.Client) {
 	tsc.Client.SetTransportHttpClient(client)
 }
-func (tsc *tsrpcServiceGoTSRPCClient) UpsertWord(word *github_com_janhalfar_vocablion_services.EventUpsertWord) (err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+func (tsc *tsrpcServiceGoTSRPCClient) AddTranslation(translation string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{translation}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "AddTranslation", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) DeleteTranslation(translation string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{translation}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "DeleteTranslation", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SaveWord() (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SaveWord", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetDeclination(declination github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{declination}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetDeclination", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetGender(gender github_com_janhalfar_vocablion_services.Gender) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{gender}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetGender", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetGenitive(genitive string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{genitive}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetGenitive", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetType(wordType github_com_janhalfar_vocablion_services.WordType) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{wordType}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetType", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetUnit(unit string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{unit}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetUnit", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetVerbConjugation(conjugation github_com_janhalfar_vocablion_services.Conjugation) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{conjugation}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetVerbConjugation", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetVerbExcpetions(praeteritum string, perfect string, ppp string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{praeteritum, perfect, ppp}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetVerbExcpetions", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetWord(word string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
 	args := []interface{}{word}
-	reply := []interface{}{&err}
-	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "UpsertWord", args, reply)
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetWord", args, reply)
 	return
 }
