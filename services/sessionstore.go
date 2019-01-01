@@ -6,44 +6,47 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/janhalfar/vocablion/redux"
 )
 
 type sessionStateMessage struct {
 	sessionID string
-	state     interface{}
+	store     *redux.Store
 }
 
 type SessionStore struct {
+	storeCreator        redux.StoreCreator
 	chanSessionGetState chan sessionStateMessage
 	chanSessionSetState chan sessionStateMessage
 }
 
 const cookieName = "session"
 
-func NewSessionStore() (s *SessionStore, err error) {
+func NewSessionStore(storeCreator redux.StoreCreator) (s *SessionStore, err error) {
 	s = &SessionStore{
 		chanSessionGetState: make(chan sessionStateMessage),
 		chanSessionSetState: make(chan sessionStateMessage),
+		storeCreator:        storeCreator,
 	}
 	go s.run()
 	return
 }
 
 func (s *SessionStore) run() {
-	sessions := map[string]interface{}{}
+	sessions := map[string]*redux.Store{}
 	for {
 		select {
 		case ssm := <-s.chanSessionSetState:
-			if ssm.state == nil {
+			if ssm.store == nil {
 				delete(sessions, ssm.sessionID)
 				continue
 			}
-			sessions[ssm.sessionID] = ssm.state
+			sessions[ssm.sessionID] = ssm.store
 		case ssm := <-s.chanSessionGetState:
-			state, _ := sessions[ssm.sessionID]
+			store, _ := sessions[ssm.sessionID]
 			s.chanSessionGetState <- sessionStateMessage{
 				sessionID: ssm.sessionID,
-				state:     state,
+				store:     store,
 			}
 		case <-time.After(time.Minute):
 			fmt.Println("gc for session states")
@@ -51,21 +54,43 @@ func (s *SessionStore) run() {
 	}
 }
 
-func (s *SessionStore) GetState(r *http.Request) (state interface{}, err error) {
+func (s *SessionStore) Init(
+	w http.ResponseWriter,
+	r *http.Request,
+) (state interface{}, store *redux.Store, err error) {
 	cookie, errCookie := r.Cookie(cookieName)
-	if errCookie != nil {
+	if errCookie != nil && errCookie != http.ErrNoCookie {
 		err = errCookie
 		return
 	}
+	sessionID := ""
+	if cookie != nil {
+		sessionID = cookie.Value
+	}
 	s.chanSessionGetState <- sessionStateMessage{
-		sessionID: cookie.Value,
+		sessionID: sessionID,
 	}
 	ssm := <-s.chanSessionGetState
-	state = ssm.state
+	if ssm.store != nil {
+		store = ssm.store
+	} else {
+		newStore, errCreate := s.storeCreator()
+		if errCreate != nil {
+			err = errCreate
+			return
+		}
+		store = newStore
+		errSet := s.set(w, r, store)
+		if errSet != nil {
+			err = errSet
+			return
+		}
+	}
+	state = store.GetState()
 	return
 }
 
-func (s *SessionStore) SetState(w http.ResponseWriter, r *http.Request, state interface{}) (err error) {
+func (s *SessionStore) set(w http.ResponseWriter, r *http.Request, store *redux.Store) (err error) {
 	sid := ""
 	cookie, errCookie := r.Cookie(cookieName)
 	if errCookie != nil {
@@ -75,18 +100,20 @@ func (s *SessionStore) SetState(w http.ResponseWriter, r *http.Request, state in
 			return
 		}
 		sid = sessionID.String()
-		http.SetCookie(w, &http.Cookie{
+		c := &http.Cookie{
+			Name:     cookieName,
 			HttpOnly: true,
 			Path:     "/",
 			Expires:  time.Now().Add(time.Hour * 100),
 			Value:    sid,
-		})
+		}
+		http.SetCookie(w, c)
 	} else {
 		sid = cookie.Value
 	}
 	s.chanSessionSetState <- sessionStateMessage{
 		sessionID: sid,
-		state:     state,
+		store:     store,
 	}
 	return
 }

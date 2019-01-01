@@ -8,14 +8,14 @@ import (
 	"github.com/janhalfar/vocablion/redux"
 )
 
-func middleware(publish func(e *events.Event) (err error)) redux.Middleware {
+func Middleware(publish func(e *events.Event) (err error)) redux.Middleware {
 	return func(
 		store *redux.Store,
 		next func(action interface{}),
 		action interface{},
 	) (err error) {
 		stateInterfaceMap := store.GetState()
-		stateInterfaceEdit, stateInterfaceEditOK := stateInterfaceMap[storeKeyEdit]
+		stateInterfaceEdit, stateInterfaceEditOK := stateInterfaceMap[StoreKeyEdit]
 		if !stateInterfaceEditOK {
 			err = errors.New("no edit state entry in store")
 			return

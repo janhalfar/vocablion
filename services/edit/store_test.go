@@ -11,7 +11,7 @@ import (
 
 func TestStore(t *testing.T) {
 	store, errStore := redux.NewStore(map[string]redux.Reducer{
-		storeKeyEdit: Reducer,
+		StoreKeyEdit: Reducer,
 	})
 	assert.NoError(t, errStore)
 	assert.NoError(t, store.Dispatch(ActionSetType{WordType: services.WordTypeNoun}))

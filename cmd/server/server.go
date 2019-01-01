@@ -10,6 +10,8 @@ import (
 	"github.com/janhalfar/selbstcert"
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/persistence"
+	"github.com/janhalfar/vocablion/redux"
+	"github.com/janhalfar/vocablion/services"
 	"github.com/janhalfar/vocablion/services/edit"
 )
 
@@ -39,11 +41,20 @@ func main() {
 	must(errP)
 	eventsStore, errEventsStore := events.NewStore(p.GetCollEvents())
 	must(errEventsStore)
-	e, errEdit := edit.NewService(p, eventsStore)
+
+	sessionStore, errSessionStore := services.NewSessionStore(func() (*redux.Store, error) {
+		return redux.NewStore(map[string]redux.Reducer{
+			edit.StoreKeyEdit: edit.Reducer,
+		}, edit.Middleware(eventsStore.Publish))
+	})
+	must(errSessionStore)
+
+	e, errEdit := edit.NewService(p, eventsStore, sessionStore)
 	must(errEdit)
 	serviceProxy := edit.NewDefaultServiceGoTSRPCProxy(e, []string{})
 	u, errU := url.Parse("http://localhost:3000")
 	must(errU)
+
 	s := &Server{
 		handlers: map[string]http.Handler{
 			serviceProxy.EndPoint: serviceProxy,

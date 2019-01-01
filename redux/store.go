@@ -1,6 +1,8 @@
 package redux
 
-import "errors"
+import (
+	"errors"
+)
 
 type Reducer func(
 	state interface{},
@@ -20,6 +22,8 @@ type Store struct {
 	middlewares []Middleware
 	state       map[string]interface{}
 }
+
+type StoreCreator func() (store *Store, err error)
 
 func NewStore(
 	reducers map[string]Reducer,
