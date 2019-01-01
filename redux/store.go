@@ -2,6 +2,8 @@ package redux
 
 import (
 	"errors"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 type Reducer func(
@@ -80,6 +82,7 @@ func (s *Store) Dispatch(action interface{}) (err error) {
 		newState[key] = newStatePart
 	}
 	s.state = newState
+	spew.Dump(newState)
 	return
 }
 

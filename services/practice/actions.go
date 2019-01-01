@@ -1,9 +1,17 @@
 package practice
 
-import (
-	"github.com/globalsign/mgo/bson"
-)
+import "github.com/janhalfar/vocablion/services"
 
-type ActionSetWordID struct {
-	ID bson.ObjectId
+type ActionNext struct {
+	Unit string
+}
+
+type ActionLoadWord struct {
+	Word *services.Word
+}
+
+type ActionAnswer struct {
+	Unit         string
+	WordType     services.WordType
+	Translations []string
 }

@@ -19,10 +19,21 @@ func Reducer(
 		err = errors.New("invalid state")
 	}
 	switch action.(type) {
-
+	case ActionLoadWord:
+		newState, err = reduceActionLoadWord(state, action.(ActionLoadWord))
+	default:
+		newState = state
 	}
 	if err != nil {
 		return
 	}
 	return state, nil
+}
+
+func reduceActionLoadWord(state PracticeState, action ActionLoadWord) (newState PracticeState, err error) {
+	newState = PracticeState{
+		Word: action.Word,
+	}
+	return
+
 }

@@ -54,9 +54,21 @@ func (s *Service) sessionDispatch(
 	return
 }
 
-func (s *Service) Foo(
+func (s *Service) Next(
 	w http.ResponseWriter,
 	r *http.Request,
+	unit string,
 ) (state PracticeState, err *services.ServiceError) {
-	return s.sessionDispatch(w, r, ActionSetWordID{})
+	return s.sessionDispatch(w, r, ActionNext{})
+}
+
+func (s *Service) Answer(w http.ResponseWriter,
+	r *http.Request,
+	wordType services.WordType,
+	translations []string,
+) (state PracticeState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionAnswer{
+		WordType:     wordType,
+		Translations: translations,
+	})
 }

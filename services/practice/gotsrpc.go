@@ -7,6 +7,7 @@ import (
 	time "time"
 
 	gotsrpc "github.com/foomo/gotsrpc"
+	github_com_janhalfar_vocablion_services "github.com/janhalfar/vocablion/services"
 )
 
 type ServiceGoTSRPCProxy struct {
@@ -56,20 +57,40 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		callStats.Service = "Service"
 	}
 	switch funcName {
-	case "Foo":
-		var ()
-		args = []interface{}{}
+	case "Answer":
+		var (
+			arg_wordType     github_com_janhalfar_vocablion_services.WordType
+			arg_translations []string
+		)
+		args = []interface{}{&arg_wordType, &arg_translations}
 		err := gotsrpc.LoadArgs(&args, callStats, r)
 		if err != nil {
 			gotsrpc.ErrorCouldNotLoadArgs(w)
 			return
 		}
 		executionStart := time.Now()
-		fooState, fooErr := p.service.Foo(w, r)
+		answerState, answerErr := p.service.Answer(w, r, arg_wordType, arg_translations)
 		if callStats != nil {
 			callStats.Execution = time.Now().Sub(executionStart)
 		}
-		gotsrpc.Reply([]interface{}{fooState, fooErr}, callStats, r, w)
+		gotsrpc.Reply([]interface{}{answerState, answerErr}, callStats, r, w)
+		return
+	case "Next":
+		var (
+			arg_unit string
+		)
+		args = []interface{}{&arg_unit}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		nextState, nextErr := p.service.Next(w, r, arg_unit)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{nextState, nextErr}, callStats, r, w)
 		return
 	default:
 		gotsrpc.ClearStats(r)

@@ -3,8 +3,24 @@
 import * as github_com_janhalfar_vocablion_services from './services'; // client/services/vo/practice.ts to client/services/vo/services.ts
 import * as github_com_janhalfar_vocablion_services_edit from './edit'; // client/services/vo/practice.ts to client/services/vo/edit.ts
 import * as github_com_janhalfar_vocablion_services_practice from './practice'; // client/services/vo/practice.ts to client/services/vo/practice.ts
+// github.com/janhalfar/vocablion/services/practice.Feedback
+export interface Feedback {
+	Complete:boolean;
+	ProgessTranslations:github_com_janhalfar_vocablion_services_practice.Progress;
+}
 // github.com/janhalfar/vocablion/services/practice.PracticeState
 export interface PracticeState {
+	Question:string;
+	WordType:string;
+	Translations:string[];
+	Feedback:github_com_janhalfar_vocablion_services_practice.Feedback;
+}
+// github.com/janhalfar/vocablion/services/practice.Progress
+export interface Progress {
+	Complete:boolean;
+	Total:number;
+	Correct:number;
+	Wrong:number;
 }
 // constants from github.com/janhalfar/vocablion/services/practice
 export const GoConst = {

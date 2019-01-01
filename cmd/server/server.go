@@ -48,7 +48,7 @@ func main() {
 			practice.StoreKey: practice.Reducer,
 		},
 			edit.Middleware(eventsStore.Publish),
-			practice.Middleware(eventsStore.Publish),
+			practice.Middleware(eventsStore.Publish, p.GetCollEvents()),
 		)
 	})
 

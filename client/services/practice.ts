@@ -9,8 +9,14 @@ export class ServiceClient {
 	constructor(
 		public transport:<T>(method: string, data?: any[]) => Promise<T>
 	) {}
-	async foo():Promise<github_com_janhalfar_vocablion_services_practice.PracticeState> {
-		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_practice.PracticeState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("Foo", [])
+	async answer(wordType:string, translations:string[]):Promise<github_com_janhalfar_vocablion_services_practice.PracticeState> {
+		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_practice.PracticeState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("Answer", [wordType, translations])
+		let err = response[1];
+		if(err) { throw err }
+		return response[0]
+	}
+	async next(unit:string):Promise<github_com_janhalfar_vocablion_services_practice.PracticeState> {
+		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_practice.PracticeState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("Next", [unit])
 		let err = response[1];
 		if(err) { throw err }
 		return response[0]
