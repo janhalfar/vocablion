@@ -14,7 +14,7 @@ type Service struct {
 	eventsStore  *events.Store
 }
 
-const StoreKeyEdit = "edit"
+const StoreKey = "edit"
 
 func NewService(
 	p *persistence.P,
@@ -34,21 +34,14 @@ func (s *Service) sessionDispatch(
 	r *http.Request,
 	action interface{},
 ) (newState EditState, err *services.ServiceError) {
-	_, reduxStore, errSession := s.sessionStore.Init(w, r)
-	if errSession != nil {
-		err = services.InternalErr(errSession)
-		return
+	newStateMap, e := s.sessionStore.Dispatch(w, r, action)
+	if e != nil {
+		err = e
 	}
-	e := reduxStore.Dispatch(action)
-	switch e.(type) {
-	case *services.ServiceError:
-		err = e.(*services.ServiceError)
-	default:
-		err = services.InternalErr(e)
-	}
-	newStateInterface, newStateOK := reduxStore.GetState()[StoreKeyEdit]
-	if !newStateOK {
-		err = services.InternalErr(errors.New("where is me state"))
+
+	newStateInterface, ok := newStateMap[StoreKey]
+	if !ok {
+		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}
 		return
 	}
 	switch newStateInterface.(type) {

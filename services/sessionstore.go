@@ -54,7 +54,38 @@ func (s *SessionStore) run() {
 	}
 }
 
-func (s *SessionStore) Init(
+func castErr(e error) (err *ServiceError) {
+	switch e.(type) {
+	case *ServiceError:
+		err = e.(*ServiceError)
+	default:
+		err = InternalErr(e)
+	}
+	return
+}
+func (s *SessionStore) Dispatch(
+	w http.ResponseWriter,
+	r *http.Request,
+	action interface{},
+) (
+	newState map[string]interface{},
+	err *ServiceError,
+) {
+	_, reduxStore, errInit := s.init(w, r)
+	if errInit != nil {
+		err = castErr(errInit)
+		return
+	}
+	errDispatch := reduxStore.Dispatch(action)
+	if errDispatch != nil {
+		err = castErr(errDispatch)
+		return
+	}
+	newState = reduxStore.GetState()
+	return
+}
+
+func (s *SessionStore) init(
 	w http.ResponseWriter,
 	r *http.Request,
 ) (state interface{}, store *redux.Store, err error) {

@@ -44,9 +44,10 @@ func main() {
 
 	sessionStore, errSessionStore := services.NewSessionStore(func() (*redux.Store, error) {
 		return redux.NewStore(map[string]redux.Reducer{
-			edit.StoreKeyEdit: edit.Reducer,
+			edit.StoreKey: edit.Reducer,
 		}, edit.Middleware(eventsStore.Publish))
 	})
+
 	must(errSessionStore)
 
 	e, errEdit := edit.NewService(p, eventsStore, sessionStore)

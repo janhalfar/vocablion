@@ -15,7 +15,7 @@ func Middleware(publish func(e *events.Event) (err error)) redux.Middleware {
 		action interface{},
 	) (err error) {
 		stateInterfaceMap := store.GetState()
-		stateInterfaceEdit, stateInterfaceEditOK := stateInterfaceMap[StoreKeyEdit]
+		stateInterfaceEdit, stateInterfaceEditOK := stateInterfaceMap[StoreKey]
 		if !stateInterfaceEditOK {
 			err = errors.New("no edit state entry in store")
 			return
