@@ -1,29 +1,62 @@
 package practice
 
 import (
+	"errors"
+	http "net/http"
+
+	"github.com/janhalfar/vocablion/events"
+	"github.com/janhalfar/vocablion/persistence"
 	"github.com/janhalfar/vocablion/services"
 )
 
 type Service struct {
+	sessionStore *services.SessionStore
+	eventsStore  *events.Store
 }
 
-func NewService() (s *Service, err error) {
-	s = &Service{}
+const StoreKey = "practice"
+
+func NewService(
+	p *persistence.P,
+	eventsStore *events.Store,
+	sessionStore *services.SessionStore,
+) (s *Service, err error) {
+	s = &Service{
+		sessionStore: sessionStore,
+		eventsStore:  eventsStore,
+	}
+	eventsStore.Subscribe([]events.Type{}, eventsSubscriber(p))
 	return
 }
 
-func (s *Service) Test(user string) (word *services.Word, err *services.ServiceError) {
-	return
-}
+func (s *Service) sessionDispatch(
+	w http.ResponseWriter,
+	r *http.Request,
+	action interface{},
+) (newState PracticeState, err *services.ServiceError) {
+	newStateMap, e := s.sessionStore.Dispatch(w, r, action)
+	if e != nil {
+		err = e
+	}
 
-func (s *Service) Check(question *services.Word, answer *services.Word) (testResult *services.TestResult, err *services.ServiceError) {
-	testResult = &services.TestResult{}
-	switch true {
-	case question.Noun != nil:
-
+	newStateInterface, ok := newStateMap[StoreKey]
+	if !ok {
+		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}
+		return
+	}
+	switch newStateInterface.(type) {
+	case PracticeState:
+		newState = newStateInterface.(PracticeState)
 	default:
-		err = services.Err("not implemented", services.ServiceErrorCodeNotImplemented)
+		err = services.InternalErr(errors.New("new state type error"))
 		return
 	}
 	return
+}
+
+func (s *Service) Foo(
+	w http.ResponseWriter,
+	r *http.Request,
+) (state PracticeState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionSetWordID{})
 }

@@ -2,6 +2,7 @@
 // hello commonjs - we need some imports - sorted in alphabetical order, by go package
 import * as github_com_janhalfar_vocablion_services from './vo/services'; // client/services/edit.ts to client/services/vo/services.ts
 import * as github_com_janhalfar_vocablion_services_edit from './vo/edit'; // client/services/edit.ts to client/services/vo/edit.ts
+import * as github_com_janhalfar_vocablion_services_practice from './vo/practice'; // client/services/edit.ts to client/services/vo/practice.ts
 
 export class ServiceClient {
 	public static defaultEndpoint = "/service/edit";

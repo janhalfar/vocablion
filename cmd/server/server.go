@@ -7,12 +7,12 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/janhalfar/selbstcert"
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/persistence"
 	"github.com/janhalfar/vocablion/redux"
 	"github.com/janhalfar/vocablion/services"
 	"github.com/janhalfar/vocablion/services/edit"
+	"github.com/janhalfar/vocablion/services/practice"
 )
 
 type Server struct {
@@ -44,23 +44,36 @@ func main() {
 
 	sessionStore, errSessionStore := services.NewSessionStore(func() (*redux.Store, error) {
 		return redux.NewStore(map[string]redux.Reducer{
-			edit.StoreKey: edit.Reducer,
-		}, edit.Middleware(eventsStore.Publish))
+			edit.StoreKey:     edit.Reducer,
+			practice.StoreKey: practice.Reducer,
+		},
+			edit.Middleware(eventsStore.Publish),
+			practice.Middleware(eventsStore.Publish),
+		)
 	})
 
 	must(errSessionStore)
 
-	e, errEdit := edit.NewService(p, eventsStore, sessionStore)
-	must(errEdit)
-	serviceProxy := edit.NewDefaultServiceGoTSRPCProxy(e, []string{})
 	u, errU := url.Parse("http://localhost:3000")
 	must(errU)
 
+	// edit
+	e, errEdit := edit.NewService(p, eventsStore, sessionStore)
+	must(errEdit)
+	serviceProxy := edit.NewDefaultServiceGoTSRPCProxy(e, []string{})
+
+	// practice
+	ps, errPractice := practice.NewService(p, eventsStore, sessionStore)
+	must(errPractice)
+	practiceProxy := practice.NewDefaultServiceGoTSRPCProxy(ps, []string{})
+
 	s := &Server{
 		handlers: map[string]http.Handler{
-			serviceProxy.EndPoint: serviceProxy,
+			serviceProxy.EndPoint:  serviceProxy,
+			practiceProxy.EndPoint: practiceProxy,
 		},
 		proxy: httputil.NewSingleHostReverseProxy(u),
 	}
-	selbstcert.ListenAndServeTLS(":8443", []string{"localhost"}, s)
+	//selbstcert.ListenAndServeTLS(":8443", []string{"localhost"}, s)
+	http.ListenAndServe(":3001", s)
 }
