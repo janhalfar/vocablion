@@ -16,13 +16,13 @@ const Index = (props) => {
         <ListItem>
           <ul>
             <ListItem>
-              <Link href="/test">
-                <a>Test WS 1</a>
+              <Link href="/practice">
+                <a>Practice WS 1</a>
               </Link>
             </ListItem>
             <ListItem>
-              <Link href="/test">
-                <a>Test WS 2</a>
+              <Link href="/practice">
+                <a>Practice WS 2</a>
               </Link>
             </ListItem>
           </ul>

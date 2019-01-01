@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { State } from "../store";
+import { State } from "../../store";
 
-import { actionEditSet } from "../actions";
-import { Input} from "./components";
-import { EditState } from "../services/vo/edit";
-import { ServiceClient } from "../services/edit";
-import { getClient } from "../transport";
+import { actionEditSet } from "../../actions";
+import { Input} from "../components";
+import { EditState } from "../../services/vo/edit";
+import { ServiceClient } from "../../services/edit";
+import { getClient } from "../../transport";
 
 const InternalEditorWord = (
   props: EditState & {

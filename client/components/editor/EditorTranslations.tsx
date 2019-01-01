@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { State } from "../store";
+import { State } from "../../store";
 
-import { actionEditSet, actionSetLocalFields } from "../actions";
-import { Input, List, ListItem, Button, ButtonSmall } from "./components";
-import { EditState } from "../services/vo/edit";
-import { ServiceClient } from "../services/edit";
-import { getClient } from "../transport";
-import { LocalFieldsState } from "../reducers/localFields";
+import { actionEditSet, actionSetLocalFields } from "../../actions";
+import { Input, List, ListItem, Button, ButtonSmall } from "../components";
+import { EditState } from "../../services/vo/edit";
+import { ServiceClient } from "../../services/edit";
+import { getClient } from "../../transport";
+import { LocalFieldsState } from "../../reducers/localFields";
 
 const InternalEditorTranslations = (
   props: EditState & {

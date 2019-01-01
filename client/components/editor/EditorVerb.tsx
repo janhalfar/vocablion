@@ -1,15 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import { State } from "../store";
+import { State } from "../../store";
 
-import { RadioBar } from "../components/RadioBar";
-import { actionEditSet, actionSetLocalFields } from "../actions";
-import { GoConst, Verb } from "../services/vo/services";
-import { Input, List, ListItem, Button } from "./components";
-import { EditState } from "../services/vo/edit";
-import { ServiceClient } from "../services/edit";
-import { getClient } from "../transport";
-import { LocalFieldsState } from "../reducers/localFields";
+import { RadioBar } from "../RadioBar";
+import { actionEditSet, actionSetLocalFields } from "../../actions";
+import { GoConst, Verb } from "../../services/vo/services";
+import { Input, List, ListItem, Button } from "../components";
+import { EditState } from "../../services/vo/edit";
+import { ServiceClient } from "../../services/edit";
+import { getClient } from "../../transport";
+import { LocalFieldsState } from "../../reducers/localFields";
 import { EditorTranslations } from "./EditorTranslations";
 import { EditorWord } from "./EditorWord";
 import { EditorSave } from "./EditorSave";

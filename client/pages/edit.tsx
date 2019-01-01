@@ -6,13 +6,13 @@ import { State } from "../store";
 import { RadioBar } from "../components/RadioBar";
 import { actionEditSet } from "../actions";
 import { GoConst } from "../services/vo/services";
-import { EditorNoun } from "../components/EditorNoun";
+import { EditorNoun } from "../components/editor/EditorNoun";
 import { getClient } from "../transport";
 import { ServiceClient } from "../services/edit";
 import { EditState } from "../services/vo/edit";
-import { EditorVerb } from "../components/EditorVerb";
-import { EditorAdjective } from "../components/EditorAdjective";
-import { EditorUnit } from "../components/EditorUnit";
+import { EditorVerb } from "../components/editor/EditorVerb";
+import { EditorAdjective } from "../components/editor/EditorAdjective";
+import { EditorUnit } from "../components/editor/EditorUnit";
 
 const editorForType = (wordType:string) => {
   switch(wordType) {

@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { State } from "../store";
+import { State } from "../../store";
 
-import { actionEditSet } from "../actions";
-import { GoConst } from "../services/vo/services";
-import { EditState } from "../services/vo/edit";
-import { ServiceClient } from "../services/edit";
-import { getClient } from "../transport";
-import { LocalFieldsState } from "../reducers/localFields";
+import { actionEditSet } from "../../actions";
+import { GoConst } from "../../services/vo/services";
+import { EditState } from "../../services/vo/edit";
+import { ServiceClient } from "../../services/edit";
+import { getClient } from "../../transport";
+import { LocalFieldsState } from "../../reducers/localFields";
 import { EditorTranslations } from "./EditorTranslations";
 import { EditorWord } from "./EditorWord";
 import { EditorSave } from "./EditorSave";

@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { State } from "../store";
+import { State } from "../../store";
 
-import { actionEditSet } from "../actions";
-import { EditState } from "../services/vo/edit";
-import { ServiceClient } from "../services/edit";
-import { getClient } from "../transport";
-import { RadioBar, Option } from "./RadioBar";
-import { GoConst } from "../services/vo/services";
+import { actionEditSet } from "../../actions";
+import { EditState } from "../../services/vo/edit";
+import { ServiceClient } from "../../services/edit";
+import { getClient } from "../../transport";
+import { RadioBar, Option } from "../RadioBar";
+import { GoConst } from "../../services/vo/services";
 
 const InternalEditorGender = (
   props: EditState & {

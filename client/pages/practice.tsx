@@ -18,7 +18,7 @@ const SolutionList = styled.ul`
 const SolutionItem = styled.ul`
 `;
 
-const Test = (props: {}) => {
+const Practice = (props: {}) => {
   return (
     <Page>
       <Title>Übersetze</Title>
@@ -33,4 +33,4 @@ const Test = (props: {}) => {
         <SolutionItem>loben</SolutionItem>
       </SolutionList>
 */
-export default Test;
+export default Practice;
