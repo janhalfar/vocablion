@@ -45,6 +45,8 @@ func Reducer(
 		state, err = reduceActionVerbSetExceptions(state, action.(ActionVerbSetExceptions))
 	case ActionVerbSetConjugation:
 		state, err = reduceActionVerbSetConjugation(state, action.(ActionVerbSetConjugation))
+	case actionLoadTheDarnWord:
+		state, err = reduceactionLoadTheDarnWord(state, action.(actionLoadTheDarnWord))
 	}
 	if err != nil {
 		return
@@ -53,6 +55,13 @@ func Reducer(
 	return state, nil
 }
 
+func reduceactionLoadTheDarnWord(state EditState, action actionLoadTheDarnWord) (newState EditState, err error) {
+	newState = EditState{
+		Word:     action.word,
+		WordType: action.word.GetWordType(),
+	}
+	return
+}
 func validateEditState(state EditState) (valid bool) {
 	valid = false
 	if state.Word == nil {

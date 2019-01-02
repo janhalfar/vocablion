@@ -40,7 +40,8 @@ func Middleware(
 			actionSearch := action.(ActionSearch)
 			q := bson.M{}
 			if actionSearch.Query != "" {
-				q["word"] = actionSearch.Query
+
+				q["word"] = bson.M{"$regex": bson.RegEx{Pattern: actionSearch.Query, Options: "i"}}
 			}
 			query := vocabCollection.Find(q)
 			count, errCount := query.Count()

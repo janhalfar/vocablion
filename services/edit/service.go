@@ -37,8 +37,8 @@ func (s *Service) sessionDispatch(
 	newStateMap, e := s.sessionStore.Dispatch(w, r, action)
 	if e != nil {
 		err = e
+		return
 	}
-
 	newStateInterface, ok := newStateMap[StoreKey]
 	if !ok {
 		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}
@@ -52,6 +52,14 @@ func (s *Service) sessionDispatch(
 		return
 	}
 	return
+}
+
+func (s *Service) LoadWord(
+	w http.ResponseWriter,
+	r *http.Request,
+	id string,
+) (state EditState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionLoadWord{ID: id})
 }
 
 func (s *Service) SaveWord(

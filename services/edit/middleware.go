@@ -3,12 +3,17 @@ package edit
 import (
 	"errors"
 
+	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/redux"
+	"github.com/janhalfar/vocablion/services"
 )
 
-func Middleware(publish func(e *events.Event) (err error)) redux.Middleware {
+func Middleware(
+	publish func(e *events.Event) (err error),
+	vocabColl *mgo.Collection,
+) redux.Middleware {
 	return func(
 		store *redux.Store,
 		next func(action interface{}),
@@ -29,7 +34,19 @@ func Middleware(publish func(e *events.Event) (err error)) redux.Middleware {
 			return
 		}
 		switch action.(type) {
-
+		case ActionLoadWord:
+			actionLoadWord := action.(ActionLoadWord)
+			w := &services.Word{}
+			if !bson.IsObjectIdHex(actionLoadWord.ID) {
+				err = errors.New("word id is not a bson id " + actionLoadWord.ID)
+				return
+			}
+			errFind := vocabColl.Find(bson.M{"_id": bson.ObjectIdHex(actionLoadWord.ID)}).One(&w)
+			if errFind != nil {
+				err = errFind
+				return
+			}
+			store.Dispatch(actionLoadTheDarnWord{word: w})
 		case ActionSaveWord:
 			eventType := EventTypeWordCreate
 			if editState.Word.ID.Hex() != "" {

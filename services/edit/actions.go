@@ -12,6 +12,14 @@ type ActionSetUnit struct {
 	Unit string
 }
 
+type ActionLoadWord struct {
+	ID string
+}
+
+type actionLoadTheDarnWord struct {
+	word *services.Word
+}
+
 type ActionNewWord struct {
 	Unit string
 }

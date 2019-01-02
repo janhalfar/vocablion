@@ -22,6 +22,12 @@ export class ServiceClient {
 		if(err) { throw err }
 		return response[0]
 	}
+	async loadWord(id:string):Promise<github_com_janhalfar_vocablion_services_edit.EditState> {
+		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_edit.EditState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("LoadWord", [id])
+		let err = response[1];
+		if(err) { throw err }
+		return response[0]
+	}
 	async newWord(unit:string):Promise<github_com_janhalfar_vocablion_services_edit.EditState> {
 		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_edit.EditState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("NewWord", [unit])
 		let err = response[1];

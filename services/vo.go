@@ -111,6 +111,20 @@ type Word struct {
 	Pronoun   *Pronoun   `json:",omitempty"`
 }
 
+func (w *Word) GetWordType() (wt WordType) {
+	switch true {
+	case w.Noun != nil:
+		wt = WordTypeNoun
+	case w.Adjective != nil:
+		wt = WordTypeAdjective
+	case w.Verb != nil:
+		wt = WordTypeVerb
+	case w.Pronoun != nil:
+		wt = WordTypePronoun
+	}
+	return
+}
+
 type User struct {
 	Email string
 	Name  string

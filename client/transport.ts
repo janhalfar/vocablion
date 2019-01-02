@@ -8,7 +8,7 @@ const getTransport = (endpoint: string) => async <T>(
   return new Promise<T>(async (resolve, reject) => {
     try {
       let axiosPromise: AxiosResponse<T> = await axios.post<T>(
-        endpoint + "/" + encodeURIComponent(method),
+        "http://localhost:3001" + endpoint + "/" + encodeURIComponent(method),
         JSON.stringify(args)
       );
       return resolve(axiosPromise.data);

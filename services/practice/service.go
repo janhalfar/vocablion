@@ -1,8 +1,9 @@
 package practice
 
 import (
-	"errors"
 	http "net/http"
+
+	"github.com/pkg/errors"
 
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/persistence"
@@ -34,10 +35,13 @@ func (s *Service) sessionDispatch(
 	r *http.Request,
 	action interface{},
 ) (newState PracticeState, err *services.ServiceError) {
+
 	newStateMap, e := s.sessionStore.Dispatch(w, r, action)
 	if e != nil {
-		err = e
+		err = services.InternalErr(errors.Wrap(e, "dispatch error"))
+		return
 	}
+
 	newStateInterface, ok := newStateMap[StoreKey]
 	if !ok {
 		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}

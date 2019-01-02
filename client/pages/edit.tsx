@@ -26,29 +26,44 @@ const editorForType = (wordType: string) => {
   }
 };
 
-const Edit = (
-  props: EditState & { setWordType: (wordType: string) => void }
-) => {
-  return (
-    <Page>
-      <Title>Edit</Title>
-      <RadioBar
-        onChangeSelection={s => {
-          props.setWordType(s);
-        }}
-        options={[
-          { label: "Noun", value: GoConst.WordTypeNoun },
-          { label: "Verb", value: GoConst.WordTypeVerb },
-          { label: "Adjective", value: GoConst.WordTypeAdjective },
-          { label: "Pronoun", value: GoConst.WordTypePronoun }
-        ]}
-        selection={props.WordType}
-      />
-      {props.WordType != "" ? <EditorUnit /> : undefined}
-      {editorForType(props.WordType)}
-    </Page>
-  );
-};
+interface EditProps extends EditState {
+  setWordType: (wordType: string) => void;
+}
+
+class InternalEdit extends React.Component<EditProps> {
+  static async getInitialProps(ctx) {
+    const state: State = ctx.reduxStore.getState();
+    if(state.edit.Word === undefined && typeof ctx.query.wordID == "string") {
+      console.log("word", state.edit.Word, ctx.query.wordID);
+      ctx.reduxStore.dispatch(actionEditSet( await getClient(ServiceClient).loadWord(ctx.query.wordID)));
+      
+    }
+  
+    return {};
+  }
+  render() {
+    console.log("props", this.props);
+    return (
+      <Page>
+        <Title>Edit</Title>
+        <RadioBar
+          onChangeSelection={s => {
+            this.props.setWordType(s);
+          }}
+          options={[
+            { label: "Noun", value: GoConst.WordTypeNoun },
+            { label: "Verb", value: GoConst.WordTypeVerb },
+            { label: "Adjective", value: GoConst.WordTypeAdjective },
+            { label: "Pronoun", value: GoConst.WordTypePronoun }
+          ]}
+          selection={this.props.WordType}
+        />
+        {this.props.WordType != "" ? <EditorUnit /> : undefined}
+        {editorForType(this.props.WordType)}
+      </Page>
+    );
+  }
+}
 
 export default connect(
   (state: State) => state.edit,
@@ -63,4 +78,4 @@ export default connect(
       }
     }
   })
-)(Edit);
+)(InternalEdit);

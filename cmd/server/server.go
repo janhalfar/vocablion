@@ -49,7 +49,7 @@ func main() {
 			practice.StoreKey: practice.Reducer,
 			words.StoreKey:    words.Reducer,
 		},
-			edit.Middleware(eventsStore.Publish),
+			edit.Middleware(eventsStore.Publish, p.GetCollVocab()),
 			practice.Middleware(eventsStore.Publish, p.GetCollVocab()),
 			words.Middleware(eventsStore.Publish, p.GetCollVocab()),
 		)
