@@ -2,11 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { State } from "../../store";
 
-import { RadioBar } from "../RadioBar";
-import { actionEditSet, actionPracticeSet } from "../../actions";
-import { GoConst } from "../../services/vo/services";
-import { Input, Button } from "../components";
-import { EditState } from "../../services/vo/edit";
+import { actionPracticeSet } from "../../actions";
+import { Button } from "../components";
 import { ServiceClient } from "../../services/practice";
 import { getClient } from "../../transport";
 import { LocalFieldsState } from "../../reducers/localFields";

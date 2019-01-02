@@ -23,6 +23,8 @@ func Reducer(
 	switch action.(type) {
 	case ActionSetWordID:
 		state, err = reduceActionSetWordID(state, action.(ActionSetWordID))
+	case ActionNewWord:
+		state, err = reduceActionNewWord(state, action.(ActionNewWord))
 	case ActionSetUnit:
 		state, err = reduceActionSetUnit(state, action.(ActionSetUnit))
 	case ActionSetGender:
@@ -122,6 +124,16 @@ func reduceActionSetUnit(state EditState, action ActionSetUnit) (newState EditSt
 	newState.Word.Unit = action.Unit
 	return
 }
+
+func reduceActionNewWord(state EditState, action ActionNewWord) (newState EditState, err error) {
+	newState = EditState{
+		Word: &services.Word{
+			Unit: action.Unit,
+		},
+	}
+	return
+}
+
 func reduceActionSetWordID(state EditState, action ActionSetWordID) (newState EditState, err error) {
 	newState = state
 	newState.Word.ID = action.ID
@@ -237,5 +249,11 @@ func reduceActionSetType(state EditState, action ActionSetType) (newState EditSt
 		err = errors.New("word type not implemented " + string(action.WordType))
 	}
 	newState.WordType = action.WordType
+	if state.Word != nil {
+		newState.Word.Unit = state.Word.Unit
+		if len(state.Word.Translations) > 0 {
+			newState.Word.Translations = state.Word.Translations
+		}
+	}
 	return
 }

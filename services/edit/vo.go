@@ -1,7 +1,9 @@
 package edit
 
-import "github.com/janhalfar/vocablion/services"
-import "github.com/janhalfar/vocablion/events"
+import (
+	"github.com/janhalfar/vocablion/events"
+	"github.com/janhalfar/vocablion/services"
+)
 
 type EditState struct {
 	WordType services.WordType

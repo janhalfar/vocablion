@@ -7,8 +7,8 @@ const ()
 type Progress struct {
 	Complete bool
 	Total    int
-	Correct  int
-	Wrong    int
+	Correct  []string
+	Wrong    []string
 }
 
 type Feedback struct {
@@ -20,5 +20,5 @@ type PracticeState struct {
 	WordType     services.WordType
 	Translations []string
 	Feedback     Feedback
-	Word         *services.Word `json:"-"`
+	Word         *services.Word // `json:"-"`
 }

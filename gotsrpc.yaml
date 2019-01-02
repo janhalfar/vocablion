@@ -17,6 +17,13 @@ targets:
     out: client/services/practice.ts
     tsrpc:
       - Service
+  words:
+    services:
+      /service/words: Service
+    package: github.com/janhalfar/vocablion/services/words
+    out: client/services/words.ts
+    tsrpc:
+      - Service
 
 mappings:
   github.com/janhalfar/vocablion/services:
@@ -25,4 +32,6 @@ mappings:
     out: client/services/vo/edit.ts
   github.com/janhalfar/vocablion/services/practice:
     out: client/services/vo/practice.ts
+  github.com/janhalfar/vocablion/services/words:
+    out: client/services/vo/words.ts
 ...

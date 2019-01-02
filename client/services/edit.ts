@@ -3,6 +3,7 @@
 import * as github_com_janhalfar_vocablion_services from './vo/services'; // client/services/edit.ts to client/services/vo/services.ts
 import * as github_com_janhalfar_vocablion_services_edit from './vo/edit'; // client/services/edit.ts to client/services/vo/edit.ts
 import * as github_com_janhalfar_vocablion_services_practice from './vo/practice'; // client/services/edit.ts to client/services/vo/practice.ts
+import * as github_com_janhalfar_vocablion_services_words from './vo/words'; // client/services/edit.ts to client/services/vo/words.ts
 
 export class ServiceClient {
 	public static defaultEndpoint = "/service/edit";
@@ -17,6 +18,12 @@ export class ServiceClient {
 	}
 	async deleteTranslation(translation:string):Promise<github_com_janhalfar_vocablion_services_edit.EditState> {
 		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_edit.EditState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("DeleteTranslation", [translation])
+		let err = response[1];
+		if(err) { throw err }
+		return response[0]
+	}
+	async newWord(unit:string):Promise<github_com_janhalfar_vocablion_services_edit.EditState> {
+		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_edit.EditState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("NewWord", [unit])
 		let err = response[1];
 		if(err) { throw err }
 		return response[0]

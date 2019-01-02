@@ -49,6 +49,7 @@ func NewStore(
 }
 
 func (s *Store) Dispatch(action interface{}) (err error) {
+	spew.Dump("---------------------------> dispatch", action)
 	i := 0
 	l := len(s.middlewares)
 	for i < l {

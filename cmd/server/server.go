@@ -13,6 +13,7 @@ import (
 	"github.com/janhalfar/vocablion/services"
 	"github.com/janhalfar/vocablion/services/edit"
 	"github.com/janhalfar/vocablion/services/practice"
+	"github.com/janhalfar/vocablion/services/words"
 )
 
 type Server struct {
@@ -48,7 +49,8 @@ func main() {
 			practice.StoreKey: practice.Reducer,
 		},
 			edit.Middleware(eventsStore.Publish),
-			practice.Middleware(eventsStore.Publish, p.GetCollEvents()),
+			practice.Middleware(eventsStore.Publish, p.GetCollVocab()),
+			words.Middleware(eventsStore.Publish, p.GetCollVocab()),
 		)
 	})
 
@@ -67,10 +69,16 @@ func main() {
 	must(errPractice)
 	practiceProxy := practice.NewDefaultServiceGoTSRPCProxy(ps, []string{})
 
+	// words
+	ws, errWords := words.NewService(p, eventsStore, sessionStore)
+	must(errWords)
+	wordsProxy := words.NewDefaultServiceGoTSRPCProxy(ws, []string{})
+
 	s := &Server{
 		handlers: map[string]http.Handler{
 			serviceProxy.EndPoint:  serviceProxy,
 			practiceProxy.EndPoint: practiceProxy,
+			wordsProxy.EndPoint:    wordsProxy,
 		},
 		proxy: httputil.NewSingleHostReverseProxy(u),
 	}

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"github.com/janhalfar/vocablion/events"
@@ -38,7 +39,14 @@ func Middleware(
 		case ActionNext:
 			q := vocabCollection.Find(bson.M{})
 			word := &services.Word{}
-			q.One(&word)
+			c, errCount := q.Count()
+			fmt.Println(c, errCount)
+			errOne := q.One(word)
+			fmt.Println("---------------->", errOne, word)
+			spew.Dump(word)
+			if errOne != nil {
+				return errOne
+			}
 			store.Dispatch(ActionLoadWord{Word: word})
 		}
 		fmt.Println(practiceState)

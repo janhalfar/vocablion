@@ -93,6 +93,14 @@ func (s *Service) SetUnit(
 	return s.sessionDispatch(w, r, ActionSetUnit{Unit: unit})
 }
 
+func (s *Service) NewWord(
+	w http.ResponseWriter,
+	r *http.Request,
+	unit string,
+) (state EditState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionNewWord{Unit: unit})
+}
+
 func (s *Service) SetGenitive(
 	w http.ResponseWriter,
 	r *http.Request,

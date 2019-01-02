@@ -21,6 +21,7 @@ func Reducer(
 	switch action.(type) {
 	case ActionLoadWord:
 		newState, err = reduceActionLoadWord(state, action.(ActionLoadWord))
+		return
 	default:
 		newState = state
 	}
@@ -32,7 +33,17 @@ func Reducer(
 
 func reduceActionLoadWord(state PracticeState, action ActionLoadWord) (newState PracticeState, err error) {
 	newState = PracticeState{
-		Word: action.Word,
+		Word:     action.Word,
+		Question: action.Word.Word,
+		Feedback: Feedback{
+			Complete: false,
+			ProgessTranslations: Progress{
+				Complete: false,
+				Total:    len(action.Word.Translations),
+				Correct:  []string{},
+				Wrong:    []string{},
+			},
+		},
 	}
 	return
 

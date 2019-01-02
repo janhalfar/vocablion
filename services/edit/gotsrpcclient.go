@@ -12,6 +12,7 @@ import (
 type ServiceGoTSRPCClient interface {
 	AddTranslation(translation string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	DeleteTranslation(translation string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	NewWord(unit string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SaveWord() (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetDeclination(declination github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetGender(gender github_com_janhalfar_vocablion_services.Gender) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
@@ -65,6 +66,13 @@ func (tsc *tsrpcServiceGoTSRPCClient) DeleteTranslation(translation string) (sta
 	args := []interface{}{translation}
 	reply := []interface{}{&state, &err}
 	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "DeleteTranslation", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) NewWord(unit string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{unit}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "NewWord", args, reply)
 	return
 }
 

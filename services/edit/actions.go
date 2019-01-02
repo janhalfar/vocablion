@@ -12,6 +12,10 @@ type ActionSetUnit struct {
 	Unit string
 }
 
+type ActionNewWord struct {
+	Unit string
+}
+
 type ActionSetWordID struct {
 	ID bson.ObjectId
 }
