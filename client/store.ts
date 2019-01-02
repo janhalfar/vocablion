@@ -6,11 +6,14 @@ import { EditState } from "./services/vo/edit";
 import { LocalFieldsState, localFieldsReducer } from "./reducers/localFields";
 import { PracticeState } from "./services/vo/practice";
 import { practiceReducer } from "./reducers/practice";
+import { WordsState } from "./services/vo/words";
+import { wordsReducer } from "./reducers/words";
 
 export interface State {
   edit: EditState;
   practice: PracticeState;
   localFields: LocalFieldsState;
+  words: WordsState;
 }
 
 export function initializeStore(initialState = {}) {
@@ -19,6 +22,7 @@ export function initializeStore(initialState = {}) {
       edit: editReducer,
       localFields: localFieldsReducer,
       practice: practiceReducer,
+      words: wordsReducer,
     }),
     initialState,
     composeWithDevTools(applyMiddleware(thunkMiddleware))

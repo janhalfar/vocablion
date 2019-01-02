@@ -6,9 +6,14 @@ import * as github_com_janhalfar_vocablion_services_practice from './practice'; 
 import * as github_com_janhalfar_vocablion_services_words from './words'; // client/services/vo/words.ts to client/services/vo/words.ts
 // github.com/janhalfar/vocablion/services/words.WordsState
 export interface WordsState {
+	Query:string;
+	Page:number;
+	Total:number;
+	Words:github_com_janhalfar_vocablion_services.Word[];
 }
 // constants from github.com/janhalfar/vocablion/services/words
 export const GoConst = {
+	PageSize : 100,
 	StoreKey : "words",
 }
 // end of common js

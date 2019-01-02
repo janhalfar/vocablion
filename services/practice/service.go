@@ -38,7 +38,6 @@ func (s *Service) sessionDispatch(
 	if e != nil {
 		err = e
 	}
-
 	newStateInterface, ok := newStateMap[StoreKey]
 	if !ok {
 		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}

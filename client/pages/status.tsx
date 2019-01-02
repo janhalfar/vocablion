@@ -1,9 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { Button, Page, Title } from "../components/components";
-
-
-
+import { Page, Title } from "../components/components";
 
 const Test = (props: {}) => {
   return (

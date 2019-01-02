@@ -2,7 +2,6 @@ package words
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -36,7 +35,6 @@ func Middleware(
 			err = errors.New("unknown state type")
 			return
 		}
-		fmt.Println(wordsState)
 		switch action.(type) {
 		case ActionSearch:
 			actionSearch := action.(ActionSearch)

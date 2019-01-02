@@ -37,10 +37,10 @@ export interface Word {
 	Unit:string;
 	Word:string;
 	Translations:string[];
-	Noun?:github_com_janhalfar_vocablion_services.Noun;
-	Verb?:github_com_janhalfar_vocablion_services.Verb;
-	Adjective?:github_com_janhalfar_vocablion_services.Adjective;
-	Pronoun?:github_com_janhalfar_vocablion_services.Pronoun;
+	ompitempty?:github_com_janhalfar_vocablion_services.Noun;
+	ompitempty?:github_com_janhalfar_vocablion_services.Verb;
+	ompitempty?:github_com_janhalfar_vocablion_services.Adjective;
+	ompitempty?:github_com_janhalfar_vocablion_services.Pronoun;
 }
 // constants from github.com/janhalfar/vocablion/services
 export const GoConst = {

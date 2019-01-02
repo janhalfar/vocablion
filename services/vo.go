@@ -105,10 +105,10 @@ type Word struct {
 	Word         string
 	Translations []string
 	// Shapes       []string
-	Noun      *Noun
-	Verb      *Verb
-	Adjective *Adjective
-	Pronoun   *Pronoun
+	Noun      *Noun      `json:",omitempty"`
+	Verb      *Verb      `json:",omitempty"`
+	Adjective *Adjective `json:",omitempty"`
+	Pronoun   *Pronoun   `json:",omitempty"`
 }
 
 type User struct {

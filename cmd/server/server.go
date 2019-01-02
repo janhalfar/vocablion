@@ -47,6 +47,7 @@ func main() {
 		return redux.NewStore(map[string]redux.Reducer{
 			edit.StoreKey:     edit.Reducer,
 			practice.StoreKey: practice.Reducer,
+			words.StoreKey:    words.Reducer,
 		},
 			edit.Middleware(eventsStore.Publish),
 			practice.Middleware(eventsStore.Publish, p.GetCollVocab()),
