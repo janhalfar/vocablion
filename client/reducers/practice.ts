@@ -13,15 +13,7 @@ export const practiceReducer = (
     WordType: "",
     Translations: [],
     translations: [],
-    Feedback : {
-      Complete: false,
-      ProgessTranslations: {
-        Complete: false,
-        Total: 0,
-        Wrong: [],
-        Correct: [],
-      },
-    },
+    Feedback : undefined,
   },
   action: AnyAction
 ): PracticeState => {
