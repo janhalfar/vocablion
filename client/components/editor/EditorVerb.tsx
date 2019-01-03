@@ -10,7 +10,7 @@ import { EditState } from "../../services/vo/edit";
 import { ServiceClient } from "../../services/edit";
 import { getClient } from "../../transport";
 import { LocalFieldsState } from "../../reducers/localFields";
-import { EditorTranslations } from "./EditorTranslations";
+import { EditorTranslations } from "../translations";
 import { EditorWord } from "./EditorWord";
 import { EditorSave } from "./EditorSave";
 

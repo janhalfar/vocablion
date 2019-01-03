@@ -3,8 +3,8 @@ package practice
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"github.com/janhalfar/vocablion/events"
@@ -38,16 +38,17 @@ func Middleware(
 		switch action.(type) {
 		case ActionNext:
 			q := vocabCollection.Find(bson.M{})
-			word := &services.Word{}
+			words := []*services.Word{}
 			c, errCount := q.Count()
 			fmt.Println(c, errCount)
-			errOne := q.One(word)
-			fmt.Println("---------------->", errOne, word)
-			spew.Dump(word)
+			errOne := q.All(&words)
 			if errOne != nil {
 				return errOne
 			}
-			store.Dispatch(ActionLoadWord{Word: word})
+			if len(words) == 0 {
+				return errors.New("i have no words")
+			}
+			store.Dispatch(ActionLoadWord{Word: words[rand.Intn(len(words)-1)]})
 		}
 		fmt.Println(practiceState)
 		next(action)

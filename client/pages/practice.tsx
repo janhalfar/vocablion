@@ -6,6 +6,7 @@ import { State } from "../store";
 import { connect } from "react-redux";
 import { PracticeState } from "../services/vo/practice";
 import { actionPracticeSet } from "../actions";
+import { PracticeTranslations } from "../components/translations";
 
 const Question = styled.h2`
   font-size: 1.5rem;
@@ -19,7 +20,7 @@ const InternalPractice = (props: PracticeState) => (
   <Page>
     <Title>Übersetze</Title>
     <Question>{props.Question}</Question>
-    <Input placeholder="..." />
+    <PracticeTranslations/>
     <ButtonOK>OK</ButtonOK>
     <PracticeNext />
   </Page>

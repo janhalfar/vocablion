@@ -7,6 +7,7 @@ export const Actions = {
   WORDS_SET: "WORDS_SET",
   EDIT_RESET: "EDIT_ReSET",
   PRACTICE_SET: "PRACTICE_SET",
+  PRACTICE_SET_TRANSLATIONS: "PRACTICE_SET_TRANSLATIONS",
   SET_LOCAL_FIELDS: "SET_LOCAL_FIELDS",
   RESET_LOCAL_FIELDS: "RESET_LOCAL_FIELDS"
 };
@@ -22,7 +23,7 @@ export const actionEditSet = (editState: EditState) => ({
 });
 
 export const actionEditReset = () => ({
-  type: Actions.EDIT_RESET,
+  type: Actions.EDIT_RESET
 });
 
 export const actionPracticeSet = (practiceState: PracticeState) => ({
@@ -30,8 +31,14 @@ export const actionPracticeSet = (practiceState: PracticeState) => ({
   practiceState
 });
 
+export const actionPracticeSetTranslations = (translations: string[]) => ({
+  type: Actions.PRACTICE_SET_TRANSLATIONS,
+  translations
+});
 
-export const actionResetLocalFields = () => ({type:Actions.RESET_LOCAL_FIELDS});
+export const actionResetLocalFields = () => ({
+  type: Actions.RESET_LOCAL_FIELDS
+});
 export const actionSetLocalFields = (fields: { [index: string]: string }) => ({
   type: Actions.SET_LOCAL_FIELDS,
   fields
