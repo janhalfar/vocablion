@@ -13,6 +13,7 @@ import (
 	"github.com/janhalfar/vocablion/services"
 	"github.com/janhalfar/vocablion/services/edit"
 	"github.com/janhalfar/vocablion/services/practice"
+	"github.com/janhalfar/vocablion/services/status"
 	"github.com/janhalfar/vocablion/services/words"
 )
 
@@ -75,11 +76,17 @@ func main() {
 	must(errWords)
 	wordsProxy := words.NewDefaultServiceGoTSRPCProxy(ws, []string{})
 
+	// status
+	ss, errStatus := status.NewService(p, eventsStore, sessionStore)
+	must(errStatus)
+	statusProxy := status.NewDefaultServiceGoTSRPCProxy(ss, []string{})
+
 	s := &Server{
 		handlers: map[string]http.Handler{
 			serviceProxy.EndPoint:  serviceProxy,
 			practiceProxy.EndPoint: practiceProxy,
 			wordsProxy.EndPoint:    wordsProxy,
+			statusProxy.EndPoint:   statusProxy,
 		},
 		proxy: httputil.NewSingleHostReverseProxy(u),
 	}

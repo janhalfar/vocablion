@@ -3,6 +3,7 @@
 import * as github_com_janhalfar_vocablion_services from './vo/services'; // client/services/edit.ts to client/services/vo/services.ts
 import * as github_com_janhalfar_vocablion_services_edit from './vo/edit'; // client/services/edit.ts to client/services/vo/edit.ts
 import * as github_com_janhalfar_vocablion_services_practice from './vo/practice'; // client/services/edit.ts to client/services/vo/practice.ts
+import * as github_com_janhalfar_vocablion_services_status from './vo/status'; // client/services/edit.ts to client/services/vo/status.ts
 import * as github_com_janhalfar_vocablion_services_words from './vo/words'; // client/services/edit.ts to client/services/vo/words.ts
 
 export class ServiceClient {

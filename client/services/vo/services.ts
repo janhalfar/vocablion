@@ -3,6 +3,7 @@
 import * as github_com_janhalfar_vocablion_services from './services'; // client/services/vo/services.ts to client/services/vo/services.ts
 import * as github_com_janhalfar_vocablion_services_edit from './edit'; // client/services/vo/services.ts to client/services/vo/edit.ts
 import * as github_com_janhalfar_vocablion_services_practice from './practice'; // client/services/vo/services.ts to client/services/vo/practice.ts
+import * as github_com_janhalfar_vocablion_services_status from './status'; // client/services/vo/services.ts to client/services/vo/status.ts
 import * as github_com_janhalfar_vocablion_services_words from './words'; // client/services/vo/services.ts to client/services/vo/words.ts
 // github.com/janhalfar/vocablion/services.Adjective
 export interface Adjective {
