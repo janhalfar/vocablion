@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
+	"strings"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -38,12 +39,17 @@ func Middleware(
 		}
 		switch action.(type) {
 		case ActionAnswer:
+			actionAnser := action.(ActionAnswer)
+			sort.Strings(actionAnser.Translations)
 			sort.Strings(practiceState.Word.Translations)
 			correct := []string{}
 			wrong := []string{}
-			for _, userTranslation := range practiceState.Translations {
+			const trim = " "
+			for _, userTranslation := range actionAnser.Translations {
+				userTranslation = strings.Trim(userTranslation, trim)
 				translationCorrect := false
 				for _, translation := range practiceState.Word.Translations {
+					translation = strings.Trim(translation, trim)
 					if translation == userTranslation {
 						translationCorrect = true
 						break
