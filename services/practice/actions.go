@@ -11,7 +11,9 @@ type ActionLoadWord struct {
 }
 
 type ActionAnswer struct {
-	Unit         string
-	WordType     services.WordType
 	Translations []string
+}
+
+type actionFeedback struct {
+	feedback *Feedback
 }

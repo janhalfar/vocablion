@@ -26,7 +26,7 @@ func NewService(
 		sessionStore: sessionStore,
 		eventsStore:  eventsStore,
 	}
-	eventsStore.Subscribe([]events.Type{}, eventsSubscriber(p))
+	eventsStore.Subscribe([]events.Type{EventTypeAnswer}, eventsSubscriber(p))
 	return
 }
 
@@ -67,11 +67,9 @@ func (s *Service) Next(
 
 func (s *Service) Answer(w http.ResponseWriter,
 	r *http.Request,
-	wordType services.WordType,
 	translations []string,
 ) (state PracticeState, err *services.ServiceError) {
 	return s.sessionDispatch(w, r, ActionAnswer{
-		WordType:     wordType,
 		Translations: translations,
 	})
 }

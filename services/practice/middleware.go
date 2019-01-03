@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"sort"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -36,6 +37,37 @@ func Middleware(
 			return
 		}
 		switch action.(type) {
+		case ActionAnswer:
+			sort.Strings(practiceState.Word.Translations)
+			correct := []string{}
+			wrong := []string{}
+			for _, userTranslation := range practiceState.Translations {
+				translationCorrect := false
+				for _, translation := range practiceState.Word.Translations {
+					if translation == userTranslation {
+						translationCorrect = true
+						break
+					}
+				}
+				if translationCorrect {
+					correct = append(correct, userTranslation)
+				} else {
+					wrong = append(wrong, userTranslation)
+				}
+			}
+			feedback := &Feedback{
+				WordID:  practiceState.Word.ID.Hex(),
+				Success: len(wrong) == 0 && len(correct) == len(practiceState.Word.Translations),
+				Correct: correct,
+				Wrong:   wrong,
+			}
+			publish(events.NewUserDataEvent(EventTypeAnswer, "luna", feedback))
+			feedback.Solution = practiceState.Word
+			errDispatch := store.Dispatch(actionFeedback{feedback: feedback})
+			if errDispatch != nil {
+				err = errDispatch
+				return
+			}
 		case ActionNext:
 			q := vocabCollection.Find(bson.M{})
 			words := []*services.Word{}
@@ -50,7 +82,6 @@ func Middleware(
 			}
 			store.Dispatch(ActionLoadWord{Word: words[rand.Intn(len(words)-1)]})
 		}
-		fmt.Println(practiceState)
 		next(action)
 		return
 	}

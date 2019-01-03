@@ -22,6 +22,9 @@ func Reducer(
 	case ActionLoadWord:
 		newState, err = reduceActionLoadWord(state, action.(ActionLoadWord))
 		return
+	case actionFeedback:
+		newState, err = reduceActionFeedback(state, action.(actionFeedback))
+		return
 	default:
 		newState = state
 	}
@@ -31,19 +34,16 @@ func Reducer(
 	return state, nil
 }
 
+func reduceActionFeedback(state PracticeState, action actionFeedback) (newState PracticeState, err error) {
+	newState = state
+	newState.Feedback = action.feedback
+	return
+}
 func reduceActionLoadWord(state PracticeState, action ActionLoadWord) (newState PracticeState, err error) {
 	newState = PracticeState{
 		Word:     action.Word,
 		Question: action.Word.Word,
-		Feedback: Feedback{
-			Complete: false,
-			ProgessTranslations: Progress{
-				Complete: false,
-				Total:    len(action.Word.Translations),
-				Correct:  []string{},
-				Wrong:    []string{},
-			},
-		},
+		Feedback: nil,
 	}
 	return
 

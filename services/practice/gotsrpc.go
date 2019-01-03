@@ -7,7 +7,6 @@ import (
 	time "time"
 
 	gotsrpc "github.com/foomo/gotsrpc"
-	github_com_janhalfar_vocablion_services "github.com/janhalfar/vocablion/services"
 )
 
 type ServiceGoTSRPCProxy struct {
@@ -59,17 +58,16 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 	switch funcName {
 	case "Answer":
 		var (
-			arg_wordType     github_com_janhalfar_vocablion_services.WordType
 			arg_translations []string
 		)
-		args = []interface{}{&arg_wordType, &arg_translations}
+		args = []interface{}{&arg_translations}
 		err := gotsrpc.LoadArgs(&args, callStats, r)
 		if err != nil {
 			gotsrpc.ErrorCouldNotLoadArgs(w)
 			return
 		}
 		executionStart := time.Now()
-		answerState, answerErr := p.service.Answer(w, r, arg_wordType, arg_translations)
+		answerState, answerErr := p.service.Answer(w, r, arg_translations)
 		if callStats != nil {
 			callStats.Execution = time.Now().Sub(executionStart)
 		}

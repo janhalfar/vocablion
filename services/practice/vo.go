@@ -1,24 +1,25 @@
 package practice
 
-import "github.com/janhalfar/vocablion/services"
+import (
+	"github.com/janhalfar/vocablion/events"
+	"github.com/janhalfar/vocablion/services"
+)
 
-const ()
-
-type Progress struct {
-	Complete bool
-	Total    int
-	Correct  []string
-	Wrong    []string
-}
+const (
+	EventTypeAnswer events.Type = "PracticeAnswer"
+)
 
 type Feedback struct {
-	Complete            bool
-	ProgessTranslations Progress
+	WordID   string
+	Correct  []string
+	Wrong    []string
+	Success  bool
+	Solution *services.Word
 }
 type PracticeState struct {
 	Question     string
 	WordType     services.WordType
 	Translations []string
-	Feedback     Feedback
+	Feedback     *Feedback
 	Word         *services.Word // `json:"-"`
 }
