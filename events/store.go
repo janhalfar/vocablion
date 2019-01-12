@@ -5,12 +5,23 @@ import (
 	"time"
 
 	"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 	"github.com/pkg/errors"
 )
 
 type Subscription struct {
 	types      []Type
 	subscriber Subscriber
+}
+
+func NewSubscription(
+	types []Type,
+	subscriber Subscriber,
+) Subscription {
+	return Subscription{
+		types:      types,
+		subscriber: subscriber,
+	}
 }
 
 type Subscriptions []Subscription
@@ -67,6 +78,38 @@ func (s *Store) Subscribe(types []Type, subscriber Subscriber) (err error) {
 }
 
 func (s *Store) Replay(since time.Time, subscriptions []Subscription) (err error) {
+	types := []Type{}
+	eventMap := map[Type][]Subscriber{}
+	for _, s := range subscriptions {
+		types = append(types, s.types...)
+		for _, eventType := range types {
+			_, ok := eventMap[eventType]
+			if !ok {
+				eventMap[eventType] = []Subscriber{}
+			}
+			eventMap[eventType] = append(eventMap[eventType], s.subscriber)
+		}
+	}
+	q := s.coll.Find(bson.M{"type": bson.M{"$in": types}})
+	iter := q.Iter()
+	e := &Event{}
+	for iter.Next(&e) {
+		errIter := iter.Err()
+		if errIter != nil {
+			err = errIter
+			return
+		}
+		subscribers, ok := eventMap[e.Type]
+		if ok {
+			for _, subscriber := range subscribers {
+				errSubscriber := subscriber(e)
+				if errSubscriber != nil {
+					err = errSubscriber
+					return
+				}
+			}
+		}
+	}
 	return
 }
 
