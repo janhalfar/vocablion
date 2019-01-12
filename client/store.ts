@@ -8,12 +8,15 @@ import { PracticeState } from "./services/vo/practice";
 import { practiceReducer } from "./reducers/practice";
 import { WordsState } from "./services/vo/words";
 import { wordsReducer } from "./reducers/words";
+import { statusReducer } from "./reducers/status";
+import { StatusState } from "./services/vo/status";
 
 export interface State {
   edit: EditState;
   practice: PracticeState;
   localFields: LocalFieldsState;
   words: WordsState;
+  status: StatusState;
 }
 
 export function initializeStore(initialState = {}) {
@@ -23,6 +26,7 @@ export function initializeStore(initialState = {}) {
       localFields: localFieldsReducer,
       practice: practiceReducer,
       words: wordsReducer,
+      status: statusReducer,
     }),
     initialState,
     composeWithDevTools(applyMiddleware(thunkMiddleware))

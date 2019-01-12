@@ -43,4 +43,6 @@ mappings:
     out: client/services/vo/words.ts
   github.com/janhalfar/vocablion/services/status:
     out: client/services/vo/status.ts
+  time:
+    out: client/services/vo/time.ts
 ...

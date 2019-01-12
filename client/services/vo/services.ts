@@ -5,6 +5,7 @@ import * as github_com_janhalfar_vocablion_services_edit from './edit'; // clien
 import * as github_com_janhalfar_vocablion_services_practice from './practice'; // client/services/vo/services.ts to client/services/vo/practice.ts
 import * as github_com_janhalfar_vocablion_services_status from './status'; // client/services/vo/services.ts to client/services/vo/status.ts
 import * as github_com_janhalfar_vocablion_services_words from './words'; // client/services/vo/services.ts to client/services/vo/words.ts
+import * as time from './time'; // client/services/vo/services.ts to client/services/vo/time.ts
 // github.com/janhalfar/vocablion/services.Adjective
 export interface Adjective {
 	Declination:string;

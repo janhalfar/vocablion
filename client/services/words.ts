@@ -5,6 +5,7 @@ import * as github_com_janhalfar_vocablion_services_edit from './vo/edit'; // cl
 import * as github_com_janhalfar_vocablion_services_practice from './vo/practice'; // client/services/words.ts to client/services/vo/practice.ts
 import * as github_com_janhalfar_vocablion_services_status from './vo/status'; // client/services/words.ts to client/services/vo/status.ts
 import * as github_com_janhalfar_vocablion_services_words from './vo/words'; // client/services/words.ts to client/services/vo/words.ts
+import * as time from './vo/time'; // client/services/words.ts to client/services/vo/time.ts
 
 export class ServiceClient {
 	public static defaultEndpoint = "/service/words";
