@@ -20,16 +20,11 @@ const Index = (props) => {
                 <a>Practice WS 1</a>
               </Link>
             </ListItem>
-            <ListItem>
-              <Link href="/practice">
-                <a>Practice WS 2</a>
-              </Link>
-            </ListItem>
           </ul>
         </ListItem>
         <ListItem>
-          <Link href="/word">
-            <a>Word</a>
+          <Link href="/words">
+            <a>Words</a>
           </Link>
         </ListItem>
         <ListItem>
