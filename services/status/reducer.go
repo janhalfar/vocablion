@@ -19,6 +19,9 @@ func Reducer(
 		err = errors.New("invalid state")
 	}
 	switch action.(type) {
+	case ActionStatus:
+		actionStatus := action.(ActionStatus)
+		newState = StatusState{Events: actionStatus.es, Stats: actionStatus.stats}
 	default:
 		newState = state
 	}

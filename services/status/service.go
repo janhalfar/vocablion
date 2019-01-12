@@ -2,17 +2,21 @@ package status
 
 import (
 	http "net/http"
+	time "time"
 
 	"github.com/pkg/errors"
 
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/persistence"
 	"github.com/janhalfar/vocablion/services"
+	"github.com/janhalfar/vocablion/services/edit"
+	"github.com/janhalfar/vocablion/services/practice"
 )
 
 type Service struct {
-	sessionStore *services.SessionStore
-	eventsStore  *events.Store
+	sessionStore    *services.SessionStore
+	eventsStore     *events.Store
+	userEventSeries userEventSeries
 }
 
 const StoreKey = "status"
@@ -23,8 +27,9 @@ func NewService(
 	sessionStore *services.SessionStore,
 ) (s *Service, err error) {
 	s = &Service{
-		sessionStore: sessionStore,
-		eventsStore:  eventsStore,
+		sessionStore:    sessionStore,
+		eventsStore:     eventsStore,
+		userEventSeries: userEventSeries{},
 	}
 	eventsStore.Subscribe([]events.Type{}, eventsSubscriber(p))
 	return
@@ -61,4 +66,61 @@ func (s *Service) Status(
 	r *http.Request,
 ) (state StatusState, err *services.ServiceError) {
 	return s.sessionDispatch(w, r, ActionStatus{})
+}
+
+func (s *Service) GetStatus(
+	w http.ResponseWriter,
+	r *http.Request,
+) (state StatusState, err *services.ServiceError) {
+	es := []Event{}
+	stats := Stats{}
+	subscriptions := events.Subscriptions{
+		events.NewSubscription(
+			[]events.Type{practice.EventTypeAnswer, edit.EventTypeWordCreate, edit.EventTypeWordUpdate},
+			func(event *events.Event) (err error) {
+				e := Event{}
+				e.Timestamp = event.Time.Unix()
+				switch event.Type {
+				case edit.EventTypeWordCreate, edit.EventTypeWordUpdate:
+					w := &services.Word{}
+					errAs := event.Data.As(&w)
+					if errAs != nil {
+						err = errAs
+						return
+					}
+					switch event.Type {
+					case edit.EventTypeWordCreate:
+						stats.WordCreate++
+						e.CreateWord = w
+					case edit.EventTypeWordUpdate:
+						stats.WordUpdate++
+						e.UpdateWord = w
+					}
+				case practice.EventTypeAnswer:
+					feedback := &practice.Feedback{}
+					errAs := event.Data.As(&feedback)
+					if errAs != nil {
+						err = errAs
+						return
+					}
+					e.Feedback = feedback
+					if feedback.Success {
+						stats.PracticeRight++
+					} else {
+						stats.PracticeWrong++
+
+					}
+				}
+				es = append([]Event{e}, es...)
+				return
+			},
+		),
+	}
+	s.eventsStore.Replay(time.Date(
+		int(1970),
+		time.January,
+		int(0), int(0), int(0), int(0), int(0),
+		time.UTC,
+	), subscriptions)
+	return s.sessionDispatch(w, r, ActionStatus{es: es, stats: stats})
 }

@@ -10,6 +10,7 @@ import (
 )
 
 type ServiceGoTSRPCClient interface {
+	GetStatus() (state StatusState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	Status() (state StatusState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetClientEncoding(encoding gotsrpc.ClientEncoding)
 	SetTransportHttpClient(client *http.Client)
@@ -44,6 +45,13 @@ func (tsc *tsrpcServiceGoTSRPCClient) SetClientEncoding(encoding gotsrpc.ClientE
 func (tsc *tsrpcServiceGoTSRPCClient) SetTransportHttpClient(client *http.Client) {
 	tsc.Client.SetTransportHttpClient(client)
 }
+func (tsc *tsrpcServiceGoTSRPCClient) GetStatus() (state StatusState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "GetStatus", args, reply)
+	return
+}
+
 func (tsc *tsrpcServiceGoTSRPCClient) Status() (state StatusState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
 	args := []interface{}{}
 	reply := []interface{}{&state, &err}

@@ -1,10 +1,12 @@
 import { EditState } from "./services/vo/edit";
 import { PracticeState } from "./services/vo/practice";
 import { WordsState } from "./services/vo/words";
+import { StatusState } from "./services/vo/status";
 
 export const Actions = {
   EDIT_SET: "EDIT_SET",
   WORDS_SET: "WORDS_SET",
+  STATUS_SET: "STATUS_SET",
   EDIT_RESET: "EDIT_ReSET",
   PRACTICE_SET: "PRACTICE_SET",
   PRACTICE_SET_TRANSLATIONS: "PRACTICE_SET_TRANSLATIONS",
@@ -20,6 +22,11 @@ export const actionWordsSet = (wordsState: WordsState) => ({
 export const actionEditSet = (editState: EditState) => ({
   type: Actions.EDIT_SET,
   editState
+});
+
+export const actionStatusSet = (statusState: StatusState) => ({
+  type: Actions.STATUS_SET,
+  statusState
 });
 
 export const actionEditReset = () => ({

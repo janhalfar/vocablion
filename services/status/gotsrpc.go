@@ -56,6 +56,21 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		callStats.Service = "Service"
 	}
 	switch funcName {
+	case "GetStatus":
+		var ()
+		args = []interface{}{}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		getStatusState, getStatusErr := p.service.GetStatus(w, r)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{getStatusState, getStatusErr}, callStats, r, w)
+		return
 	case "Status":
 		var ()
 		args = []interface{}{}

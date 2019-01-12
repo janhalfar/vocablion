@@ -4,16 +4,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/globalsign/mgo"
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/redux"
 )
 
-const PageSize = 100
-
 func Middleware(
 	publish func(e *events.Event) (err error),
-	vocabCollection *mgo.Collection,
 ) redux.Middleware {
 	return func(
 		store *redux.Store,
