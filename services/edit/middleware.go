@@ -55,11 +55,16 @@ func Middleware(
 				editState.Word.ID = bson.NewObjectId()
 			}
 			if editState.Valid {
-				errPublish := publish(events.NewUserDataEvent(
+				e, errE := events.NewUserDataEvent(
 					eventType,
 					"luna",
 					editState.Word,
-				))
+				)
+				if errE != nil {
+					err = errE
+					return
+				}
+				errPublish := publish(e)
 				if errPublish != nil {
 					panic("wtf")
 				}

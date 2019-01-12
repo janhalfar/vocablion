@@ -67,13 +67,19 @@ func Middleware(
 				Correct: correct,
 				Wrong:   wrong,
 			}
-			publish(events.NewUserDataEvent(EventTypeAnswer, "luna", feedback))
+			e, errE := events.NewUserDataEvent(EventTypeAnswer, "luna", feedback)
+			if errE != nil {
+				err = errE
+				return
+			}
+			publish(e)
 			feedback.Solution = practiceState.Word
 			errDispatch := store.Dispatch(actionFeedback{feedback: feedback})
 			if errDispatch != nil {
 				err = errDispatch
 				return
 			}
+
 		case ActionNext:
 			q := vocabCollection.Find(bson.M{})
 			words := []*services.Word{}

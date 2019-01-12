@@ -1,7 +1,6 @@
 package edit
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/janhalfar/vocablion/events"
@@ -11,12 +10,12 @@ import (
 
 func EventsSubscriber(p *persistence.P) events.Subscriber {
 	return func(event *events.Event) (err error) {
-		// fmt.Println("edit.EventsSubscriber", event.Type)
 		switch event.Type {
 		case EventTypeWordCreate, EventTypeWordUpdate:
-			w, wOK := event.Data.(*services.Word)
-			if !wOK {
-				err = errors.New("could not cast event.Data as *services.Word")
+			w := &services.Word{}
+			errAs := event.Data.As(&w)
+			if errAs != nil {
+				err = errAs
 				return
 			}
 			_, errUpsert := p.GetCollVocab().UpsertId(w.ID, w)

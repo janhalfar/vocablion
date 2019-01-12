@@ -11,9 +11,11 @@ func eventsSubscriber(p *persistence.P) events.Subscriber {
 	return func(event *events.Event) (err error) {
 		switch event.Type {
 		case EventTypeAnswer:
-			fmt.Println("there comes an aswer", event.Data)
+			feedback := &Feedback{}
+			errAs := event.Data.As(&feedback)
+			fmt.Println("practice subscriber: there comes feedback", feedback, errAs)
 		default:
-			fmt.Println("häääää from edit events", event.Type)
+			fmt.Println("practice subscriber: häääää", event.Type)
 		}
 		return
 	}
