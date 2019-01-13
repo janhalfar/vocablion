@@ -38,6 +38,17 @@ func Middleware(
 			return
 		}
 		switch action.(type) {
+		case ActionLearn:
+			if practiceState.Word == nil {
+				err = errors.New("no word no learning")
+				return
+			}
+			learnEvent, errE := events.NewUserDataEvent(EventTypeLearn, "luna", practiceState.Word)
+			if errE != nil {
+				err = errE
+				return
+			}
+			publish(learnEvent)
 		case ActionAnswer:
 			actionAnser := action.(ActionAnswer)
 			sort.Strings(actionAnser.Translations)

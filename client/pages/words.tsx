@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Title, Input, ButtonSmall } from "../components/components";
+import { Page, Title, Input, ButtonSmall, wordInfo, wordType } from "../components/components";
 import { getClient } from "../transport";
 import { ServiceClient } from "../services/words";
 import { ServiceClient as ServiceClientEdit } from "../services/edit";
@@ -35,32 +35,6 @@ const Cell = styled.td`
   padding: 0.5rem;
   border: 1px solid lightgray;
 `;
-
-const wordType = (word: Word) => {
-  switch (true) {
-    case word.Noun !== undefined:
-      return "noun";
-    case word.Verb !== undefined:
-      return "verb";
-    case word.Adjective !== undefined:
-      return "adj";
-    default:
-      return "unknown";
-  }
-};
-
-const info = (word: Word) => {
-  switch (true) {
-    case word.Noun !== undefined:
-      return word.Noun.Declination;
-    case word.Verb !== undefined:
-      return word.Verb.Conjugation;
-    case word.Adjective !== undefined:
-      return "adj";
-    default:
-      return "unknown";
-  }
-};
 
 export interface WordsProps extends WordsState {
   search: (query: string) => void;
@@ -98,11 +72,11 @@ class InternalWords extends React.Component<WordsProps> {
               <Row key={word.ID}>
                 <Cell>{word.Word}</Cell>
                 <Cell>{word.Unit}</Cell>
-                <Cell>{wordType(word)} - {info(word)}</Cell>
+                <Cell>{wordType(word)} - {wordInfo(word)}</Cell>
                 <Cell>{word.Translations.join(", ")}</Cell>
                 <Cell>
                   <ButtonSmall
-                    onClick={e => {
+                    onClick={_e => {
                       Router.push({
                         pathname: "/edit",
                         query: { wordID: word.ID }

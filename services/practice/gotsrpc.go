@@ -73,6 +73,21 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		}
 		gotsrpc.Reply([]interface{}{answerState, answerErr}, callStats, r, w)
 		return
+	case "Learn":
+		var ()
+		args = []interface{}{}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		learnState, learnErr := p.service.Learn(w, r)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{learnState, learnErr}, callStats, r, w)
+		return
 	case "Next":
 		var (
 			arg_unit string

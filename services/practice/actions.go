@@ -13,6 +13,8 @@ type ActionLoadWord struct {
 type ActionAnswer struct {
 	Translations []string
 }
+type ActionLearn struct {
+}
 
 type actionFeedback struct {
 	feedback *Feedback

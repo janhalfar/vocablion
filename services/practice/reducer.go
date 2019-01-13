@@ -19,6 +19,9 @@ func Reducer(
 		err = errors.New("invalid state")
 	}
 	switch action.(type) {
+	case ActionLearn:
+		newState, err = reduceActionLearn(state, action.(ActionLearn))
+		return
 	case ActionLoadWord:
 		newState, err = reduceActionLoadWord(state, action.(ActionLoadWord))
 		return
@@ -31,9 +34,17 @@ func Reducer(
 	if err != nil {
 		return
 	}
-	return state, nil
+	return
 }
 
+func reduceActionLearn(state PracticeState, action ActionLearn) (newState PracticeState, err error) {
+	newState = state
+	newState.LearnWord = newState.Word
+	if newState.LearnWord == nil {
+		err = errors.New("no word to learn")
+	}
+	return
+}
 func reduceActionFeedback(state PracticeState, action actionFeedback) (newState PracticeState, err error) {
 	newState = state
 	newState.Feedback = action.feedback

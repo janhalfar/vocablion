@@ -20,10 +20,12 @@ type Event struct {
 	CreateWord *services.Word     `json:",omitempty"`
 	UpdateWord *services.Word     `json:",omitempty"`
 	DeleteWord *services.Word     `json:",omitempty"`
+	LearnWord  *services.Word     `json:",omitempty"`
 }
 type Stats struct {
 	PracticeRight int
 	PracticeWrong int
+	PracticeLearn int
 	WordCreate    int
 	WordDelete    int
 	WordUpdate    int

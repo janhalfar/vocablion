@@ -73,3 +73,9 @@ func (s *Service) Answer(w http.ResponseWriter,
 		Translations: translations,
 	})
 }
+
+func (s *Service) Learn(w http.ResponseWriter,
+	r *http.Request,
+) (state PracticeState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionLearn{})
+}

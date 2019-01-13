@@ -9,20 +9,20 @@ import { getClient } from "../../transport";
 import { LocalFieldsState } from "../../reducers/localFields";
 import { PracticeState } from "../../services/vo/practice";
 
-const PracticeNextInternal = (
+const PracticeShowInternal = (
   props: PracticeState & {
     localFields: LocalFieldsState;
     next: () => void;
   }
 ) => {
   return (
-    <Button onClick={_e => props.next()}>next</Button>
+    <Button width={"100%"} onClick={_e => props.next()}>show</Button>
   );
 };
 
 const client = getClient(ServiceClient);
 
-export const PracticeNext = connect(
+export const PracticeShow = connect(
   (state: State) => ({ ...state.practice, localFields: state.localFields }),
   dispatch => {
     const des = (newState: PracticeState) => {
@@ -30,8 +30,8 @@ export const PracticeNext = connect(
     };
     return {
       next: async () => {
-        des( await client.next());
+        des( await client.learn());
       },
     };
   }
-)(PracticeNextInternal);
+)(PracticeShowInternal);

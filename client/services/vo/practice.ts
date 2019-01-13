@@ -20,11 +20,12 @@ export interface PracticeState {
 	WordType:string;
 	Translations:string[];
 	Feedback?:github_com_janhalfar_vocablion_services_practice.Feedback;
-	Word?:github_com_janhalfar_vocablion_services.Word;
+	LearnWord?:github_com_janhalfar_vocablion_services.Word;
 }
 // constants from github.com/janhalfar/vocablion/services/practice
 export const GoConst = {
 	EventTypeAnswer : "PracticeAnswer",
+	EventTypeLearn : "PracticeLearn",
 	StoreKey : "practice",
 }
 // end of common js

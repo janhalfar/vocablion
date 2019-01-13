@@ -5,7 +5,6 @@ import { State } from "../store";
 import {
   actionEditSet,
   actionSetLocalFields,
-  actionPracticeSet,
   actionPracticeSetTranslations
 } from "../actions";
 import { Input, ButtonSmall } from "./components";
@@ -13,7 +12,6 @@ import { EditState } from "../services/vo/edit";
 import { ServiceClient as EditClient } from "../services/edit";
 import { getClient } from "../transport";
 import { LocalFieldsState } from "../reducers/localFields";
-import { PracticeState } from "../services/vo/practice";
 import styled from "styled-components";
 
 const Translations = styled.div``;
@@ -21,7 +19,7 @@ const Translation = styled.div`
   padding: 0.3rem;
   font-size: 1.5rem;
   :nth-child(odd) {
-    background-color: grey;
+    background-color: #efefef;
   }
   span {
     float: left;
@@ -40,13 +38,18 @@ const InternalEditorTranslations = (props: {
   setTranslation: (translation: string) => void;
   submitTranslation?: (translation: string) => void;
   submitTranslations?: (translations: string[]) => void;
-  deleteTranslation: (translation: string) => void;
+  deleteTranslation?: (translation: string) => void;
+  deleteTranslationInList?: (translations:string[], translation: string) => void;
+
 }) => {
   return (
     <React.Fragment>
       <form
         onSubmit={e => {
           e.preventDefault();
+          if (props.localFields.translation == "") {
+            return;
+          }
           if (props.submitTranslation) {
             props.submitTranslation(props.localFields.translation);
           } else if (props.submitTranslations) {
@@ -66,10 +69,21 @@ const InternalEditorTranslations = (props: {
         {props.translations.map(t => (
           <Translation key={t}>
             <span onClick={_e => props.setTranslation(t)}>{t}</span>{" "}
-            <ButtonSmall danger onClick={e => props.deleteTranslation(t)}>
+            <ButtonSmall
+              danger
+              onClick={e => {
+                if(props.deleteTranslation) {
+                  props.deleteTranslation(t);
+                } else if(props.deleteTranslationInList) {
+                  props.deleteTranslationInList(props.translations, t);
+                } else {
+                  console.warn("can not delete translation", t);
+                }
+              }}
+            >
               delete
             </ButtonSmall>
-            <div></div>
+            <div />
           </Translation>
         ))}
       </Translations>
@@ -109,20 +123,17 @@ export const PracticeTranslations = connect(
     localFields: state.localFields
   }),
   dispatch => {
-    // const des = (newState: PracticeState) => {
-    //   dispatch(actionPracticeSet(newState));
-    // };
     return {
-      setTranslation: async (translation: string) => {
+      setTranslation:  (translation: string) => {
         dispatch(actionSetLocalFields({ translation }));
       },
-      submitTranslations: async (translations: string[]) => {
+      submitTranslations:  (translations: string[]) => {
         dispatch(actionPracticeSetTranslations(translations));
         dispatch(actionSetLocalFields({ translation: "" }));
         //des(await client.addTranslation(translation));
       },
-      deleteTranslation: async (translation: string) => {
-        //des(await client.deleteTranslation(translation));
+      deleteTranslationInList: (translations: string[], translation: string) => {
+        dispatch(actionPracticeSetTranslations(translations.filter(t => t != translation)));
       }
     };
   }

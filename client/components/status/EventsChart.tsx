@@ -1,11 +1,8 @@
 import React from "react";
 import {
   BarChart,
-  XAxis,
-  YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ReferenceLine,
   Bar
 } from "recharts";
@@ -38,6 +35,7 @@ export const EventsChart = (props: {
     right: number;
     wrong: number;
     create: number;
+    learn: number;
     update: number;
     deleteWord: number;
   }
@@ -55,6 +53,7 @@ export const EventsChart = (props: {
       wrong: 0,
       create: 0,
       update: 0,
+      learn:0,
       deleteWord: 0,
     });
   }
@@ -71,6 +70,9 @@ export const EventsChart = (props: {
     switch (true) {
       case e.DeleteWord !== undefined:
         entry.deleteWord --;
+        break;
+      case e.LearnWord !== undefined:
+        entry.learn++;
         break;
       case e.CreateWord !== undefined:
         entry.create++;
@@ -98,16 +100,14 @@ export const EventsChart = (props: {
       margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
       <Tooltip />
-      <Legend />
       <ReferenceLine y={0} stroke="#000" />
       <Bar dataKey="right" fill="#0f0" stackId="stack" />
       <Bar dataKey="wrong" fill="#f00" stackId="stack" />
       <Bar dataKey="create" fill="#8884d8" stackId="stack" />
       <Bar dataKey="update" fill="#82ca9d" stackId="stack" />
       <Bar dataKey="deleteWord" fill="#0ff" stackId="stack" />
+      <Bar dataKey="learn" fill="#000" stackId="stack" />
     </BarChart>
     </React.Fragment>
   );

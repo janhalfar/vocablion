@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styled, { createGlobalStyle } from "styled-components";
+import { Word } from "../services/vo/services";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -40,6 +41,7 @@ const Logo = styled.h1`
 `;
 
 export const Button = styled.button`
+  cursor: pointer;
   display: block;
   font-size: 2rem;
   border: none;
@@ -47,11 +49,20 @@ export const Button = styled.button`
   padding: 1rem;
   color: white;
   background-color: grey;
+  width: ${props => props.width ? props.width : "auto"};
+`;
+
+export const ButtonBarVertical = styled.div`
+  button {
+    margin-top: 0.5rem;
+  }
+  margin: 0.5rem 0;
 `;
 
 export const ButtonSmall = styled.button`
+  cursor: pointer;
   display: block;
-  font-size: .5rem;
+  font-size: 1rem;
   border: none;
   border-radius: 0.1rem;
   padding: .3rem;
@@ -90,7 +101,7 @@ export const ListItem = styled.li`
 `;
 
 export const Page = (props: {
-  children: React.ReactChildren | React.ReactElement<HTMLElement>;
+  children: React.ReactChildren | React.ReactElement<HTMLElement> | Element | Element[] | JSX.Element | JSX.Element[];
 }) => (
   <P>
     <GlobalStyle />
@@ -102,3 +113,33 @@ export const Page = (props: {
     {props.children}
   </P>
 );
+
+export const wordLongInfo = (word: Word) => wordType(word) + " - " + wordInfo(word);
+
+export const wordInfo = (word: Word) => {
+  switch (true) {
+    case word.Noun !== undefined:
+      return word.Noun!.Declination;
+    case word.Verb !== undefined:
+      return word.Verb!.Conjugation;
+    case word.Adjective !== undefined:
+      return "adj";
+    default:
+      return "unknown";
+  }
+};
+
+export const wordType = (word: Word) => {
+  switch (true) {
+    case word.Noun !== undefined:
+      return "noun";
+    case word.Verb !== undefined:
+      return "verb";
+    case word.Adjective !== undefined:
+      return "adj";
+    default:
+      return "unknown";
+  }
+};
+
+

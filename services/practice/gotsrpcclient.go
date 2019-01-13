@@ -11,6 +11,7 @@ import (
 
 type ServiceGoTSRPCClient interface {
 	Answer(translations []string) (state PracticeState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	Learn() (state PracticeState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	Next(unit string) (state PracticeState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetClientEncoding(encoding gotsrpc.ClientEncoding)
 	SetTransportHttpClient(client *http.Client)
@@ -49,6 +50,13 @@ func (tsc *tsrpcServiceGoTSRPCClient) Answer(translations []string) (state Pract
 	args := []interface{}{translations}
 	reply := []interface{}{&state, &err}
 	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "Answer", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) Learn() (state PracticeState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "Learn", args, reply)
 	return
 }
 

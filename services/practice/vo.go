@@ -7,6 +7,7 @@ import (
 
 const (
 	EventTypeAnswer events.Type = "PracticeAnswer"
+	EventTypeLearn  events.Type = "PracticeLearn"
 )
 
 type Feedback struct {
@@ -21,5 +22,6 @@ type PracticeState struct {
 	WordType     services.WordType
 	Translations []string
 	Feedback     *Feedback
-	Word         *services.Word // `json:"-"`
+	Word         *services.Word `json:"-"`
+	LearnWord    *services.Word
 }

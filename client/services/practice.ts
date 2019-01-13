@@ -18,6 +18,12 @@ export class ServiceClient {
 		if(err) { throw err }
 		return response[0]
 	}
+	async learn():Promise<github_com_janhalfar_vocablion_services_practice.PracticeState> {
+		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_practice.PracticeState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("Learn", [])
+		let err = response[1];
+		if(err) { throw err }
+		return response[0]
+	}
 	async next(unit:string):Promise<github_com_janhalfar_vocablion_services_practice.PracticeState> {
 		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_practice.PracticeState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("Next", [unit])
 		let err = response[1];

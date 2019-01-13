@@ -14,11 +14,13 @@ export interface Event {
 	CreateWord?:github_com_janhalfar_vocablion_services.Word;
 	UpdateWord?:github_com_janhalfar_vocablion_services.Word;
 	DeleteWord?:github_com_janhalfar_vocablion_services.Word;
+	LearnWord?:github_com_janhalfar_vocablion_services.Word;
 }
 // github.com/janhalfar/vocablion/services/status.Stats
 export interface Stats {
 	PracticeRight:number;
 	PracticeWrong:number;
+	PracticeLearn:number;
 	WordCreate:number;
 	WordDelete:number;
 	WordUpdate:number;
