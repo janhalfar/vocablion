@@ -49,8 +49,9 @@ const StatsComp = (props: { stats: Stats }) => (
     <Badge role={BadgeRole.Poor}>
       Practice wrong {props.stats.PracticeWrong}
     </Badge>
-    <Badge>create word {props.stats.WordCreate}</Badge>
-    <Badge>update word {props.stats.WordUpdate}</Badge>
+    <Badge>create {props.stats.WordCreate}</Badge>
+    <Badge>update {props.stats.WordUpdate}</Badge>
+    <Badge>delete {props.stats.WordDelete}</Badge>
   </React.Fragment>
 );
 

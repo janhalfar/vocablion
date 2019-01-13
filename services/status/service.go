@@ -76,12 +76,12 @@ func (s *Service) GetStatus(
 	stats := Stats{}
 	subscriptions := events.Subscriptions{
 		events.NewSubscription(
-			[]events.Type{practice.EventTypeAnswer, edit.EventTypeWordCreate, edit.EventTypeWordUpdate},
+			[]events.Type{practice.EventTypeAnswer, edit.EventTypeWordCreate, edit.EventTypeWordUpdate, edit.EventTypeWordDelete},
 			func(event *events.Event) (err error) {
 				e := Event{}
 				e.Timestamp = event.Time.Unix()
 				switch event.Type {
-				case edit.EventTypeWordCreate, edit.EventTypeWordUpdate:
+				case edit.EventTypeWordCreate, edit.EventTypeWordUpdate, edit.EventTypeWordDelete:
 					w := &services.Word{}
 					errAs := event.Data.As(&w)
 					if errAs != nil {
@@ -95,6 +95,9 @@ func (s *Service) GetStatus(
 					case edit.EventTypeWordUpdate:
 						stats.WordUpdate++
 						e.UpdateWord = w
+					case edit.EventTypeWordDelete:
+						stats.WordDelete++
+						e.DeleteWord = w
 					}
 				case practice.EventTypeAnswer:
 					feedback := &practice.Feedback{}

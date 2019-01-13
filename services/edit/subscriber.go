@@ -24,7 +24,17 @@ func EventsSubscriber(p *persistence.P) events.Subscriber {
 				return
 			}
 		case EventTypeWordDelete:
-			fmt.Println("deletion is not implemented yet")
+			w := &services.Word{}
+			errAs := event.Data.As(&w)
+			if errAs != nil {
+				err = errAs
+				return
+			}
+			errDelete := p.GetCollVocab().RemoveId(w.ID)
+			if errDelete != nil {
+				err = errDelete
+				return
+			}
 		default:
 			fmt.Println("häääää", event.Type)
 		}

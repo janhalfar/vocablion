@@ -91,6 +91,23 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		}
 		gotsrpc.Reply([]interface{}{deleteTranslationState, deleteTranslationErr}, callStats, r, w)
 		return
+	case "DeleteWord":
+		var (
+			arg_id string
+		)
+		args = []interface{}{&arg_id}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		deleteWordState, deleteWordErr := p.service.DeleteWord(w, r, arg_id)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{deleteWordState, deleteWordErr}, callStats, r, w)
+		return
 	case "LoadWord":
 		var (
 			arg_id string

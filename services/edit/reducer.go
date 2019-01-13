@@ -21,6 +21,8 @@ func Reducer(
 		err = errors.New("invalid state")
 	}
 	switch action.(type) {
+	case ActionDeleteWord:
+		state = EditState{}
 	case ActionSetWordID:
 		state, err = reduceActionSetWordID(state, action.(ActionSetWordID))
 	case ActionNewWord:

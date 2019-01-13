@@ -57,6 +57,9 @@ type ActionSetGender struct {
 }
 
 type ActionSaveWord struct{}
+type ActionDeleteWord struct {
+	ID string
+}
 
 type ActionSetWord struct {
 	Word string

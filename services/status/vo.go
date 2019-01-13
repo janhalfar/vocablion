@@ -19,11 +19,13 @@ type Event struct {
 	Feedback   *practice.Feedback `json:",omitempty"`
 	CreateWord *services.Word     `json:",omitempty"`
 	UpdateWord *services.Word     `json:",omitempty"`
+	DeleteWord *services.Word     `json:",omitempty"`
 }
 type Stats struct {
 	PracticeRight int
 	PracticeWrong int
 	WordCreate    int
+	WordDelete    int
 	WordUpdate    int
 }
 type StatusState struct {

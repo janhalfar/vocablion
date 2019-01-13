@@ -162,3 +162,12 @@ func (s *Service) SetVerbExcpetions(
 		PPP:         ppp,
 	})
 }
+
+func (s *Service) DeleteWord(w http.ResponseWriter,
+	r *http.Request,
+	id string,
+) (state EditState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionDeleteWord{
+		ID: id,
+	})
+}

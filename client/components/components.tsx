@@ -42,7 +42,12 @@ export const ButtonSmall = styled.button`
   border-radius: 0.1rem;
   padding: .3rem;
   color: white;
-  background-color: grey;
+  background-color: ${ props => {
+    if(props.danger !== undefined) {
+      return "red";
+    }
+    return "grey";
+  }};
   display: inline;
 `;
 

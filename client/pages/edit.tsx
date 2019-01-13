@@ -33,7 +33,7 @@ interface EditProps extends EditState {
 class InternalEdit extends React.Component<EditProps> {
   static async getInitialProps(ctx) {
     const state: State = ctx.reduxStore.getState();
-    if(state.edit.Word === undefined && typeof ctx.query.wordID == "string") {
+    if(typeof ctx.query.wordID == "string") {
       console.log("word", state.edit.Word, ctx.query.wordID);
       ctx.reduxStore.dispatch(actionEditSet( await getClient(ServiceClient).loadWord(ctx.query.wordID)));
       

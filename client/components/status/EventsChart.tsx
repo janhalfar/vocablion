@@ -10,10 +10,12 @@ import {
   Bar
 } from "recharts";
 
+import {Event} from '../../services/vo/status';
+
 import moment from "moment";
 
 export const EventsChart = (props: {
-  events: any[];
+  events: Event[];
   since: number;
   buckets: number;
 }) => {
@@ -37,6 +39,7 @@ export const EventsChart = (props: {
     wrong: number;
     create: number;
     update: number;
+    deleteWord: number;
   }
   let data: Entry[] = [];
   for (let i = 0; i < props.buckets; i++) {
@@ -51,7 +54,8 @@ export const EventsChart = (props: {
       right: 0,
       wrong: 0,
       create: 0,
-      update: 0
+      update: 0,
+      deleteWord: 0,
     });
   }
   events.forEach(e => {
@@ -65,6 +69,9 @@ export const EventsChart = (props: {
     }
     const entry = data[bucketI];
     switch (true) {
+      case e.DeleteWord !== undefined:
+        entry.deleteWord ++;
+        break;
       case e.CreateWord !== undefined:
         entry.create++;
         break;
@@ -100,6 +107,7 @@ export const EventsChart = (props: {
       <Bar dataKey="wrong" fill="#f00" stackId="practice" />
       <Bar dataKey="create" fill="#8884d8" stackId="edit" />
       <Bar dataKey="update" fill="#82ca9d" stackId="edit" />
+      <Bar dataKey="deleteWord" fill="#0ff" stackId="edit" />
     </BarChart>
     </React.Fragment>
   );

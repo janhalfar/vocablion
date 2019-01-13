@@ -2,15 +2,17 @@ import React from "react";
 import { Page, Title, Input, ButtonSmall } from "../components/components";
 import { getClient } from "../transport";
 import { ServiceClient } from "../services/words";
+import { ServiceClient as ServiceClientEdit } from "../services/edit";
 import { WordsState } from "../services/vo/words";
 import { State } from "../store";
 import { connect } from "react-redux";
-import { actionWordsSet } from "../actions";
+import { actionWordsSet, actionEditSet } from "../actions";
 import styled from "styled-components";
 import { Word } from "../services/vo/services";
 import Router from "next/router";
 
 const client = getClient(ServiceClient);
+const editClient = getClient(ServiceClientEdit);
 
 const Table = styled.table`
   border: 1px solid black;
@@ -54,6 +56,7 @@ const info = (word: Word) => {
 
 export interface WordsProps extends WordsState {
   search: (query: string) => void;
+  deleteWord: (query:string, id:string) => void;
 }
 
 class InternalWords extends React.Component<WordsProps> {
@@ -99,10 +102,20 @@ class InternalWords extends React.Component<WordsProps> {
                         pathname: "/edit",
                         query: { wordID: word.ID }
                       });
-                      console.log("goto ", word.ID);
                     }}
                   >
                     edit
+                  </ButtonSmall>
+                  <ButtonSmall
+                    danger
+                    onClick={e => {
+                      if(confirm("really detele: " + word.Word)) {
+                        // console.log("deleting", props.Query, word.ID);
+                        props.deleteWord(props.Query, word.ID);
+                      }
+                    }}
+                  >
+                    delete
                   </ButtonSmall>
                 </Cell>
               </Row>
@@ -114,6 +127,8 @@ class InternalWords extends React.Component<WordsProps> {
   }
 }
 
+
+
 const Words = connect(
   (state: State) => state.words,
   dispatch => {
@@ -122,6 +137,10 @@ const Words = connect(
     };
     return {
       search: async (query: string) => {
+        des(await client.search(query));
+      },
+      deleteWord: async (query:string, id:string) => {
+        dispatch(actionEditSet(await editClient.deleteWord(id)));
         des(await client.search(query));
       }
     };

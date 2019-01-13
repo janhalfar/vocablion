@@ -34,6 +34,21 @@ func Middleware(
 			return
 		}
 		switch action.(type) {
+		case ActionDeleteWord:
+			actionDeleteWord := action.(ActionDeleteWord)
+			w := &services.Word{}
+			errFind := vocabColl.Find(bson.M{"_id": bson.ObjectIdHex(actionDeleteWord.ID)}).One(&w)
+			if errFind != nil {
+				err = errFind
+				return
+			}
+
+			deleteWordEvent, errDeleteEvent := events.NewUserDataEvent(EventTypeWordDelete, "luna", w)
+			if errDeleteEvent != nil {
+				err = errDeleteEvent
+				return
+			}
+			publish(deleteWordEvent)
 		case ActionLoadWord:
 			actionLoadWord := action.(ActionLoadWord)
 			w := &services.Word{}
