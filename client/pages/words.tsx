@@ -15,17 +15,25 @@ const client = getClient(ServiceClient);
 const editClient = getClient(ServiceClientEdit);
 
 const Table = styled.table`
-  border: 1px solid black;
   border-collapse: collapse;
   width: 100%;
 `;
 
+const Thead = styled.thead`
+  font-weight: bold;
+  color: white;
+  background-color: grey;
+`;
+
 const Row = styled.tr`
   border: 1px solid black;
+  :nth-child(even) {
+    background-color: white;
+  }
 `;
 const Cell = styled.td`
   padding: 0.5rem;
-  border: 1px solid black;
+  border: 1px solid lightgray;
 `;
 
 const wordType = (word: Word) => {
@@ -73,27 +81,24 @@ class InternalWords extends React.Component<WordsProps> {
         <Input
           onChange={e => props.search(e.target.value)}
           value={props.Query}
+          placeholder="filter words"
         />
-        <p>bla bla</p>
-
         <Table>
-          <thead>
+          <Thead>
             <Row>
               <Cell>Word</Cell>
               <Cell>Unit</Cell>
-              <Cell>Type</Cell>
               <Cell>Info</Cell>
               <Cell>Translations</Cell>
               <Cell>Actions</Cell>
             </Row>
-          </thead>
+          </Thead>
           <tbody>
             {props.Words.map(word => (
               <Row key={word.ID}>
                 <Cell>{word.Word}</Cell>
                 <Cell>{word.Unit}</Cell>
-                <Cell>{wordType(word)}</Cell>
-                <Cell>{info(word)}</Cell>
+                <Cell>{wordType(word)} - {info(word)}</Cell>
                 <Cell>{word.Translations.join(", ")}</Cell>
                 <Cell>
                   <ButtonSmall

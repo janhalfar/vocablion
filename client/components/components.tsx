@@ -7,11 +7,25 @@ body {
   background-color: #efefef;
   font-family: Helvetica, Arial, sans-serif;
 }
+a {
+  text-decoration: none;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  }
+
 `;
 
 const P = styled.div`
-  padding: 1rem;
-  margin: 0;
+  margin: 1rem;
 `;
 
 export const Title = styled.h2`
@@ -41,6 +55,7 @@ export const ButtonSmall = styled.button`
   border: none;
   border-radius: 0.1rem;
   padding: .3rem;
+  margin: .1rem;
   color: white;
   background-color: ${ props => {
     if(props.danger !== undefined) {
@@ -57,7 +72,7 @@ export const Input = styled.input`
   border: 1px solid grey;
   padding: 0.8rem;
   margin: 0.5rem 0;
-  display: block;
+  width: 100%;
 `;
 
 export const List = styled.ul`
@@ -67,10 +82,11 @@ export const List = styled.ul`
 `;
 
 export const ListItem = styled.li`
-  font-size: 1rem;
+  font-size: 2rem;
   list-style: none;
   margin-left: 0;
-  padding-left: 0;
+  padding: 0.2rem 0;
+  text-decoration: none;
 `;
 
 export const Page = (props: {
@@ -80,7 +96,7 @@ export const Page = (props: {
     <GlobalStyle />
     <Logo>
       <Link href="/">
-        <div>vocablion</div>
+        <a>vocablion</a>
       </Link>
     </Logo>
     {props.children}

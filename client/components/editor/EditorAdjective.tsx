@@ -14,14 +14,9 @@ import { EditorSave } from "./EditorSave";
 import { EditorDeclinations } from "./EditorDeclinations";
 import { EditorGender } from "./EditorGender";
 
-const EditorAdjectiveInternal = (
-  props: EditState & {
-    localFields: LocalFieldsState;
-    deleteTranslation: (translation: string) => void;
-  }
-) => {
+export const EditorAdjective = () => {
   return (
-    <div>
+    <React.Fragment>
       <EditorWord placeholder="adjective"/>
       <EditorDeclinations
         declinations={[
@@ -33,20 +28,6 @@ const EditorAdjectiveInternal = (
       <EditorGender/>
       <EditorTranslations/>
       <EditorSave/>
-
-    </div>
+    </React.Fragment>
   );
 };
-
-const client = getClient(ServiceClient);
-
-export const EditorAdjective= connect(
-  (state: State) => state.edit,
-  dispatch => {
-    const des = (newState: EditState) => {
-      dispatch(actionEditSet(newState));
-    };
-    return {
-    };
-  }
-)(EditorAdjectiveInternal);

@@ -2,12 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { State } from "../../store";
 
-import { actionEditSet, actionEditReset } from "../../actions";
+import { actionEditSet } from "../../actions";
 import { Button } from "../components";
 import { EditState } from "../../services/vo/edit";
 import { ServiceClient } from "../../services/edit";
 import { getClient } from "../../transport";
-import { GoConst } from "../../services/vo/services";
+import styled from "styled-components";
+
+const SaveButton = styled(Button)`
+  width: 100%;
+  background-color: darkgreen;
+`
 
 const EditorSaveInternal = (
   props: EditState & {
@@ -17,7 +22,7 @@ const EditorSaveInternal = (
   return (
     <React.Fragment>
       {props.Valid ? (
-        <Button onClick={e => props.save(props.Word ?props.Word.Unit: "")}>save</Button>
+        <SaveButton onClick={_e => props.save(props.Word ?props.Word.Unit: "")}>save</SaveButton>
       ) : (
         "not valid"
       )}

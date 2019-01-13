@@ -5,7 +5,7 @@ import { Page, Title, List, ListItem } from "../components/components";
 const Index = () => {
   return (
     <Page>
-      <Title>Index</Title>
+      <Title>Welcome</Title>
       <List>
         <ListItem>
           <Link href="/status">

@@ -91,11 +91,11 @@ export const EventsChart = (props: {
     <React.Fragment>
       <h2>{since}</h2>
     <BarChart
-      width={window.innerWidth*0.8}
+      width={window.innerWidth*0.9}
       height={300}
       data={data}
       stackOffset="sign"
-      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />

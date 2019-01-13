@@ -18,19 +18,19 @@ import { EditorGender } from "./EditorGender";
 
 const EditorNounInternal = (
   props: EditState & {
-    localFields: LocalFieldsState;
-    setPluralWord: (pluralWord: boolean) => void;
-    setGenitive: (genitiv: string) => void;
-    deleteTranslation: (translation: string) => void;
+    localFields?: LocalFieldsState;
+    setPluralWord?: (pluralWord: boolean) => void;
+    setGenitive?: (genitiv: string) => void;
+    deleteTranslation?: (translation: string) => void;
   }
 ) => {
   return (
-    <div>
+    <React.Fragment>
       <EditorWord placeholder="noun" />
       <Input
         placeholder="genitive"
-        value={props.Word.Noun.Genitive}
-        onChange={e => props.setGenitive(e.target.value)}
+        value={props.Word && props.Word.Noun && props.Word.Noun.Genitive}
+        onChange={e => props.setGenitive && props.setGenitive(e.target.value)}
       />
       <EditorDeclinations
         declinations={[
@@ -47,17 +47,17 @@ const EditorNounInternal = (
       <EditorGender/>
       <RadioBar
         onChangeSelection={s => {
-          props.setPluralWord(s);
+          props.setPluralWord && props.setPluralWord(s);
         }}
         options={[
           { label: "plural word", value: true },
           { label: "normal word", value: false }
         ]}
-        selection={props.Word.Noun.PluralWord}
+        selection={props.Word && props.Word.Noun && props.Word.Noun.PluralWord}
       />
       <EditorTranslations />
       <EditorSave />
-    </div>
+    </React.Fragment>
   );
 };
 

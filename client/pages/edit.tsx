@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Page, Title } from "../components/components";
 import { State } from "../store";
 import { RadioBar } from "../components/RadioBar";
-import { actionEditSet } from "../actions";
+import { actionEditSet, actionEditReset } from "../actions";
 import { GoConst } from "../services/vo/services";
 import { EditorNoun } from "../components/editor/EditorNoun";
 import { getClient } from "../transport";
@@ -32,11 +32,13 @@ interface EditProps extends EditState {
 
 class InternalEdit extends React.Component<EditProps> {
   static async getInitialProps(ctx) {
-    const state: State = ctx.reduxStore.getState();
+    // const state: State = ctx.reduxStore.getState();
+    ctx.reduxStore.dispatch(actionEditReset());
+    const client = getClient(ServiceClient);
     if(typeof ctx.query.wordID == "string") {
-      console.log("word", state.edit.Word, ctx.query.wordID);
-      ctx.reduxStore.dispatch(actionEditSet( await getClient(ServiceClient).loadWord(ctx.query.wordID)));
-      
+      ctx.reduxStore.dispatch(actionEditSet( await client.loadWord(ctx.query.wordID)));
+    } else {
+      ctx.reduxStore.dispatch(actionEditSet( await client.newWord()));
     }
   
     return {};
