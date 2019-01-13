@@ -8,7 +8,7 @@ import * as github_com_janhalfar_vocablion_services_words from './vo/words'; // 
 import * as time from './vo/time'; // client/services/status.ts to client/services/vo/time.ts
 
 export class ServiceClient {
-	public static defaultEndpoint = "/service/words";
+	public static defaultEndpoint = "/service/status";
 	constructor(
 		public transport:<T>(method: string, data?: any[]) => Promise<T>
 	) {}

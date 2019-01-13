@@ -23,11 +23,11 @@ type tsrpcServiceGoTSRPCClient struct {
 }
 
 func NewDefaultServiceGoTSRPCClient(url string) ServiceGoTSRPCClient {
-	return NewServiceGoTSRPCClient(url, "/service/words")
+	return NewServiceGoTSRPCClient(url, "/service/status")
 }
 
 func NewServiceGoTSRPCClient(url string, endpoint string) ServiceGoTSRPCClient {
-	return NewServiceGoTSRPCClientWithClient(url, "/service/words", nil)
+	return NewServiceGoTSRPCClientWithClient(url, "/service/status", nil)
 }
 
 func NewServiceGoTSRPCClientWithClient(url string, endpoint string, client *http.Client) ServiceGoTSRPCClient {

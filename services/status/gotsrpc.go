@@ -17,7 +17,7 @@ type ServiceGoTSRPCProxy struct {
 
 func NewDefaultServiceGoTSRPCProxy(service *Service, allowOrigin []string) *ServiceGoTSRPCProxy {
 	return &ServiceGoTSRPCProxy{
-		EndPoint:    "/service/words",
+		EndPoint:    "/service/status",
 		allowOrigin: allowOrigin,
 		service:     service,
 	}

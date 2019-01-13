@@ -26,7 +26,7 @@ targets:
       - Service
   status:
     services:
-      /service/words: Service
+      /service/status: Service
     package: github.com/janhalfar/vocablion/services/status
     out: client/services/status.ts
     tsrpc:
