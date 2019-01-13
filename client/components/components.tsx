@@ -5,11 +5,16 @@ import { Word } from "../services/vo/services";
 
 const GlobalStyle = createGlobalStyle`
 body {
-  background-color: #efefef;
+  background-color: #c1c1c1;
   font-family: Helvetica, Arial, sans-serif;
 }
 a {
   text-decoration: none;
+}
+
+h1, h2, h3 {
+  color: #6e6e6e;
+  font-weight: normal;
 }
 
 html {
@@ -30,14 +35,16 @@ const P = styled.div`
 `;
 
 export const Title = styled.h2`
-  color: darkgray;
+  color: white;
   font-size: 3rem;
+  font-weight: 900;
+  text-shadow: 0px 0px 5px rgba(0,0,0, 0.1);
 `;
 
 const Logo = styled.h1`
-  color: darkgray;
+  /* color: darkgray; */
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 1rem;
+  /* font-size: 1rem; */
 `;
 
 export const Button = styled.button`
@@ -49,7 +56,7 @@ export const Button = styled.button`
   padding: 1rem;
   color: white;
   background-color: grey;
-  width: ${props => props.width ? props.width : "auto"};
+  width: ${props => (props.width ? props.width : "auto")};
 `;
 
 export const ButtonBarVertical = styled.div`
@@ -65,11 +72,11 @@ export const ButtonSmall = styled.button`
   font-size: 1rem;
   border: none;
   border-radius: 0.1rem;
-  padding: .3rem;
-  margin: .1rem;
+  padding: 0.3rem;
+  margin: 0.1rem;
   color: white;
-  background-color: ${ props => {
-    if(props.danger !== undefined) {
+  background-color: ${props => {
+    if (props.danger !== undefined) {
       return "red";
     }
     return "grey";
@@ -80,7 +87,8 @@ export const ButtonSmall = styled.button`
 export const Input = styled.input`
   font-size: 1.5rem;
   border-radius: 0.5rem;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
+  border: none;
   padding: 0.8rem;
   margin: 0.5rem 0;
   width: 100%;
@@ -101,7 +109,13 @@ export const ListItem = styled.li`
 `;
 
 export const Page = (props: {
-  children: React.ReactChildren | React.ReactElement<HTMLElement> | Element | Element[] | JSX.Element | JSX.Element[];
+  children:
+    | React.ReactChildren
+    | React.ReactElement<HTMLElement>
+    | Element
+    | Element[]
+    | JSX.Element
+    | JSX.Element[];
 }) => (
   <P>
     <GlobalStyle />
@@ -114,7 +128,8 @@ export const Page = (props: {
   </P>
 );
 
-export const wordLongInfo = (word: Word) => wordType(word) + " - " + wordInfo(word);
+export const wordLongInfo = (word: Word) =>
+  wordType(word) + " - " + wordInfo(word);
 
 export const wordInfo = (word: Word) => {
   switch (true) {
@@ -141,5 +156,3 @@ export const wordType = (word: Word) => {
       return "unknown";
   }
 };
-
-
