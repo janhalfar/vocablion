@@ -50,7 +50,7 @@ func Middleware(
 				return
 			}
 			words := []*services.Word{}
-			errAll := query.Skip(wordsState.Page * PageSize).Limit(PageSize).All(&words)
+			errAll := query.Skip(wordsState.Page*PageSize).Sort("unit", "word").Limit(PageSize).All(&words)
 			if errAll != nil {
 				err = errAll
 				return
