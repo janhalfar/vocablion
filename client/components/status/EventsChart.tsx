@@ -70,7 +70,7 @@ export const EventsChart = (props: {
     const entry = data[bucketI];
     switch (true) {
       case e.DeleteWord !== undefined:
-        entry.deleteWord ++;
+        entry.deleteWord --;
         break;
       case e.CreateWord !== undefined:
         entry.create++;
@@ -103,11 +103,11 @@ export const EventsChart = (props: {
       <Tooltip />
       <Legend />
       <ReferenceLine y={0} stroke="#000" />
-      <Bar dataKey="right" fill="#0f0" stackId="practice" />
-      <Bar dataKey="wrong" fill="#f00" stackId="practice" />
-      <Bar dataKey="create" fill="#8884d8" stackId="edit" />
-      <Bar dataKey="update" fill="#82ca9d" stackId="edit" />
-      <Bar dataKey="deleteWord" fill="#0ff" stackId="edit" />
+      <Bar dataKey="right" fill="#0f0" stackId="stack" />
+      <Bar dataKey="wrong" fill="#f00" stackId="stack" />
+      <Bar dataKey="create" fill="#8884d8" stackId="stack" />
+      <Bar dataKey="update" fill="#82ca9d" stackId="stack" />
+      <Bar dataKey="deleteWord" fill="#0ff" stackId="stack" />
     </BarChart>
     </React.Fragment>
   );
