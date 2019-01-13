@@ -7,8 +7,9 @@ import { actionStatusSet } from "../actions";
 import { connect } from "react-redux";
 
 import { StatusState, Stats } from "../services/vo/status";
-import styled from "styled-components";
+
 import { EventsChart } from "../components/status/EventsChart";
+import { Badge, BadgeColors } from "../components/status/Badge";
 
 export interface PracticeProps extends StatusState {
   status: () => void;
@@ -16,49 +17,21 @@ export interface PracticeProps extends StatusState {
 
 const statusClient = getClient(ServiceClient);
 
-enum BadgeRole {
-  Great,
-  Neutral,
-  Poor
-}
-
-const StyledBadge = styled.div`
-  color: white;
-  padding: 0.5rem;
-  margin: 0.3rem;
-  border-radius: 0.5rem;
-  display: inline-block;
-  background-color: ${props =>
-    ((role: BadgeRole) => {
-      switch (role) {
-        case BadgeRole.Poor:
-          return "red";
-        case BadgeRole.Great:
-          return "green";
-        default:
-          return "grey";
-      }
-    })(props.role)};
-`;
-
 const StatsComp = (props: { stats: Stats }) => (
   <React.Fragment>
-    <Badge role={BadgeRole.Great}>
-      Practice right {props.stats.PracticeRight}
+    <Badge color={BadgeColors.right}>
+      right {props.stats.PracticeRight}
     </Badge>
-    <Badge role={BadgeRole.Poor}>
-      Practice wrong {props.stats.PracticeWrong}
+    <Badge color={BadgeColors.wrong}>
+      wrong {props.stats.PracticeWrong}
     </Badge>
-    <Badge>learn {props.stats.PracticeLearn}</Badge>
-    <Badge>create {props.stats.WordCreate}</Badge>
-    <Badge>update {props.stats.WordUpdate}</Badge>
-    <Badge>delete {props.stats.WordDelete}</Badge>
+    <Badge color={BadgeColors.learn }>learn {props.stats.PracticeLearn}</Badge>
+    <Badge color={BadgeColors.create}>create {props.stats.WordCreate}</Badge>
+    <Badge color={BadgeColors.update}>update {props.stats.WordUpdate}</Badge>
+    <Badge color={BadgeColors.delete}>delete {props.stats.WordDelete}</Badge>
   </React.Fragment>
 );
 
-const Badge = (props: { role?: BadgeRole; children: any }) => (
-  <StyledBadge role={props.role}>{props.children}</StyledBadge>
-);
 
 
 const hour = 3600;
