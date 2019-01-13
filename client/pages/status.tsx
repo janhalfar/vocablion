@@ -34,8 +34,10 @@ const StatsComp = (props: { stats: Stats }) => (
 
 
 
-const hour = 3600;
-const day = 3600 * 24;
+const sec = 1;
+const minute = 60 * sec;
+const hour = minute * 60;
+const day = hour * 24;
 
 class InternalPractice extends React.Component<PracticeProps> {
   static async getInitialProps(ctx) {
@@ -50,6 +52,12 @@ class InternalPractice extends React.Component<PracticeProps> {
         <Title>Status</Title>
         <h2>all time</h2>
         <StatsComp stats={this.props.Stats} />
+
+        <EventsChart
+          events={this.props.Events}
+          since={nowTimestamp - 15*minute}
+          buckets={15}
+        />
 
         <EventsChart
           events={this.props.Events}
