@@ -23,6 +23,7 @@ type Server struct {
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// log.Print(r.URL)
 	for prefix, h := range s.handlers {
 		if strings.HasPrefix(r.URL.Path, prefix) {
 			h.ServeHTTP(w, r)
@@ -92,6 +93,9 @@ func main() {
 		},
 		proxy: httputil.NewSingleHostReverseProxy(u),
 	}
-	//selbstcert.ListenAndServeTLS(":8443", []string{"localhost"}, s)
+	// go func() {
+	// 	http.ListenAndServe(":3001", s)
+	// }()
+	//selbstcert.ListenAndServeTLS(":8443", []string{"192.168.2.118"}, s)
 	http.ListenAndServe(":3001", s)
 }

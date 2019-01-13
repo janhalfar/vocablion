@@ -3,16 +3,12 @@ import styled from "styled-components";
 import { PracticeState } from "../../reducers/practice";
 import { ServiceClient } from "../../services/practice";
 import { getClient } from "../../transport";
-import { Button, ButtonBarVertical } from "../components";
+import { Button, ButtonBarVertical, Question } from "../components";
 import { PracticeTranslations } from "../translations";
 import { PracticeShow } from "./Show";
 import { connect } from "react-redux";
 import { State } from "../../store";
 import { actionPracticeSet } from "../../actions";
-
-const Question = styled.h2`
-  font-size: 1.5rem;
-`;
 
 const ButtonOK = styled(Button)`
   background-color: #5bbf66;

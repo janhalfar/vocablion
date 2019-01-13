@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styled, { createGlobalStyle } from "styled-components";
 import { Word } from "../services/vo/services";
+import Router from "next/router";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -10,6 +11,10 @@ body {
 }
 a {
   text-decoration: none;
+  color: #287fcc;
+  :visited {
+    color: #287fcc;
+  }
 }
 
 h1, h2, h3 {
@@ -34,11 +39,25 @@ const P = styled.div`
   margin: 1rem;
 `;
 
+export const ShadowBox = styled.div`
+  box-shadow: 2px 2px 14px 0px rgba(50, 50, 50, 0.45);
+`;
+
+export const ShadowButton = styled.button`
+  box-shadow: 2px 2px 14px 0px rgba(50, 50, 50, 0.45);
+  background-color: ${props => {
+    if (props.danger !== undefined) {
+      return "red";
+    }
+    return "#287fcc";
+  }};
+`;
+
 export const Title = styled.h2`
   color: white;
   font-size: 3rem;
   font-weight: 900;
-  text-shadow: 0px 0px 5px rgba(0,0,0, 0.1);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Logo = styled.h1`
@@ -52,7 +71,13 @@ export const Form = styled.div`
   max-width: 640px;
 `;
 
-export const Button = styled.button`
+export const gotoWord = (wordID: string) =>
+  Router.push({
+    pathname: "/edit",
+    query: { wordID }
+  });
+
+export const Button = styled(ShadowButton)`
   cursor: pointer;
   display: block;
   font-size: 2rem;
@@ -60,8 +85,13 @@ export const Button = styled.button`
   border-radius: 0.3rem;
   padding: 1rem;
   color: white;
-  background-color: grey;
   width: ${props => (props.width ? props.width : "auto")};
+`;
+
+export const Question = styled.h2`
+  font-size: 3rem;
+  color: black;
+  font-weight: 900;
 `;
 
 export const ButtonBarVertical = styled.div`
@@ -71,7 +101,7 @@ export const ButtonBarVertical = styled.div`
   margin: 0.5rem 0;
 `;
 
-export const ButtonSmall = styled.button`
+export const ButtonSmall = styled(ShadowButton)`
   cursor: pointer;
   display: block;
   font-size: 1rem;
@@ -80,12 +110,6 @@ export const ButtonSmall = styled.button`
   padding: 0.3rem;
   margin: 0.1rem;
   color: white;
-  background-color: ${props => {
-    if (props.danger !== undefined) {
-      return "red";
-    }
-    return "grey";
-  }};
   display: inline;
 `;
 
@@ -138,6 +162,8 @@ export const wordLongInfo = (word: Word) =>
 
 export const wordInfo = (word: Word) => {
   switch (true) {
+    case word.Adverb !== undefined:
+      return "n/a";
     case word.Noun !== undefined:
       return word.Noun!.Declination;
     case word.Verb !== undefined:
@@ -151,6 +177,8 @@ export const wordInfo = (word: Word) => {
 
 export const wordType = (word: Word) => {
   switch (true) {
+    case word.Adverb !== undefined:
+      return "adverb";
     case word.Noun !== undefined:
       return "noun";
     case word.Verb !== undefined:

@@ -13,14 +13,18 @@ const InternalEditorDeclinations = (
   props: EditState & {
     declinations:Option[];
     selection: string;
-    setDeclination?: (declination: string) => void;
+    setDeclinations?: (declinations: string[]) => void;
   }
 ) => {
   return (
       <RadioBar
         bgColor="#707064"
         onChangeSelection={s => {
-          props.setDeclination(s);
+          if(typeof s === "string") {
+            props.setDeclinations([s]);
+          } else {
+            props.setDeclinations(s);
+          }
         }}
         options={props.declinations}
         selection={props.selection}
@@ -35,7 +39,7 @@ export const EditorDeclinations = connect(
     let selection = "";
     switch(state.edit.WordType) {
       case GoConst.WordTypeAdjective:
-        selection = state.edit.Word.Adjective.Declination;
+        selection = state.edit.Word.Adjective.Declinations;
         break;
       case GoConst.WordTypeNoun:
         selection = state.edit.Word.Noun.Declination;
@@ -48,8 +52,8 @@ export const EditorDeclinations = connect(
       dispatch(actionEditSet(newState));
     };
     return {
-      setDeclination: async (declination: string) => {
-        des(await client.setDeclination(declination));
+      setDeclinations: async (declinations: string[]) => {
+        des(await client.setDeclinations(declinations));
       },
     };
   }

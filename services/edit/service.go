@@ -117,12 +117,12 @@ func (s *Service) SetGenitive(
 	return s.sessionDispatch(w, r, ActionSetGenitive{Genitive: genitive})
 }
 
-func (s *Service) SetDeclination(
+func (s *Service) SetDeclinations(
 	w http.ResponseWriter,
 	r *http.Request,
-	declination services.Declination,
+	declinations []services.Declination,
 ) (state EditState, err *services.ServiceError) {
-	return s.sessionDispatch(w, r, ActionSetDeclination{Declination: declination})
+	return s.sessionDispatch(w, r, ActionSetDeclination{Declinations: declinations})
 }
 
 func (s *Service) AddTranslation(

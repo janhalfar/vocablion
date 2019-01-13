@@ -46,7 +46,6 @@ const InternalEditorTranslations = (props: {
   submitTranslations?: (translations: string[]) => void;
   deleteTranslation?: (translation: string) => void;
   deleteTranslationInList?: (translations:string[], translation: string) => void;
-
 }) => {
   return (
     <React.Fragment>
@@ -89,7 +88,7 @@ const InternalEditorTranslations = (props: {
             >
               delete
             </ButtonSmall>
-            <div />
+            <div className="clear"/>
           </Translation>
         ))}
       </Translations>

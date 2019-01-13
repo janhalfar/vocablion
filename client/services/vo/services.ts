@@ -8,8 +8,11 @@ import * as github_com_janhalfar_vocablion_services_words from './words'; // cli
 import * as time from './time'; // client/services/vo/services.ts to client/services/vo/time.ts
 // github.com/janhalfar/vocablion/services.Adjective
 export interface Adjective {
-	Declination:string;
+	Declinations:string[];
 	Gender:string;
+}
+// github.com/janhalfar/vocablion/services.Adverb
+export interface Adverb {
 }
 // github.com/janhalfar/vocablion/services.Noun
 export interface Noun {
@@ -43,6 +46,7 @@ export interface Word {
 	Verb?:github_com_janhalfar_vocablion_services.Verb;
 	Adjective?:github_com_janhalfar_vocablion_services.Adjective;
 	Pronoun?:github_com_janhalfar_vocablion_services.Pronoun;
+	Adverb?:github_com_janhalfar_vocablion_services.Adverb;
 }
 // constants from github.com/janhalfar/vocablion/services
 export const GoConst = {
@@ -65,6 +69,7 @@ export const GoConst = {
 	ServiceErrorCodeInternalError : 1,
 	ServiceErrorCodeNotImplemented : 999,
 	WordTypeAdjective : "WordTypeAdjective",
+	WordTypeAdverb : "WordTypeAdverb",
 	WordTypeNoun : "WordTypeNoun",
 	WordTypePronoun : "WordTypePronoun",
 	WordTypeVerb : "WordTypeVerb",

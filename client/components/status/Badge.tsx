@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ShadowBox } from "../components";
 
 export const BadgeColors = {
   right: "#00a23d",
@@ -9,9 +10,8 @@ export const BadgeColors = {
   delete: "#0f8181"
 };
 
-const StyledBadge = styled.div`
+const StyledBadge = styled(ShadowBox)`
   color: white;
-  box-shadow: 2px 2px 14px 0px rgba(50, 50, 50, 0.45);
   padding: 0.5rem;
   margin: 0.3rem;
   border-radius: 0.5rem;

@@ -12,11 +12,14 @@ import { EditState } from "../services/vo/edit";
 import { EditorVerb } from "../components/editor/EditorVerb";
 import { EditorAdjective } from "../components/editor/EditorAdjective";
 import { EditorUnit } from "../components/editor/EditorUnit";
+import { EditorAdverb } from "../components/editor/EditorAdverb";
 
 const editorForType = (wordType: string) => {
   switch (wordType) {
     case GoConst.WordTypeNoun:
       return <EditorNoun />;
+    case GoConst.WordTypeAdverb:
+      return <EditorAdverb />;
     case GoConst.WordTypeVerb:
       return <EditorVerb />;
     case GoConst.WordTypeAdjective:
@@ -43,7 +46,6 @@ class InternalEdit extends React.Component<EditProps> {
     return {};
   }
   render() {
-    console.log("props", this.props);
     return (
       <Page>
         <Title>Edit</Title>
@@ -53,10 +55,10 @@ class InternalEdit extends React.Component<EditProps> {
               this.props.setWordType(s);
             }}
             options={[
-              { label: "Noun", value: GoConst.WordTypeNoun },
-              { label: "Verb", value: GoConst.WordTypeVerb },
-              { label: "Adjective", value: GoConst.WordTypeAdjective },
-              { label: "Pronoun", value: GoConst.WordTypePronoun }
+              { label: "noun", value: GoConst.WordTypeNoun },
+              { label: "verb", value: GoConst.WordTypeVerb },
+              { label: "adjective", value: GoConst.WordTypeAdjective },
+              { label: "adverb", value: GoConst.WordTypeAdverb },
             ]}
             selection={this.props.WordType}
           />

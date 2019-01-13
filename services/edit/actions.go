@@ -41,7 +41,7 @@ type ActionAddTranslation struct {
 }
 
 type ActionSetDeclination struct {
-	Declination services.Declination
+	Declinations []services.Declination
 }
 
 type ActionSetGenitive struct {

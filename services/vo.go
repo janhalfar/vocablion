@@ -64,6 +64,8 @@ type Noun struct {
 	Gender      Gender
 	Declination Declination
 }
+type Adverb struct {
+}
 
 type Conjugation string
 
@@ -83,8 +85,8 @@ type Verb struct {
 }
 
 type Adjective struct {
-	Declination Declination
-	Gender      Gender
+	Declinations []Declination
+	Gender       Gender
 }
 
 type Pronoun struct {
@@ -95,6 +97,7 @@ type WordType string
 const (
 	WordTypeNoun      WordType = "WordTypeNoun"
 	WordTypeVerb      WordType = "WordTypeVerb"
+	WordTypeAdverb    WordType = "WordTypeAdverb"
 	WordTypePronoun   WordType = "WordTypePronoun"
 	WordTypeAdjective WordType = "WordTypeAdjective"
 )
@@ -109,6 +112,7 @@ type Word struct {
 	Verb      *Verb      `json:",omitempty"`
 	Adjective *Adjective `json:",omitempty"`
 	Pronoun   *Pronoun   `json:",omitempty"`
+	Adverb    *Adverb    `json:",omitempty"`
 }
 
 func (w *Word) GetWordType() (wt WordType) {

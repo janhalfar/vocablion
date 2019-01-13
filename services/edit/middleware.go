@@ -61,6 +61,9 @@ func Middleware(
 				err = errFind
 				return
 			}
+			if w.Adjective != nil && w.Adjective.Declinations == nil {
+				w.Adjective.Declinations = []services.Declination{}
+			}
 			store.Dispatch(actionLoadTheDarnWord{word: w})
 		case ActionSaveWord:
 			eventType := EventTypeWordCreate

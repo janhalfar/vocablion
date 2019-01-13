@@ -49,6 +49,7 @@ export const Feedback = (props: { feedback: PracticeFeedback }) => {
   const sol = feedback.Solution;
   return (
     <React.Fragment>
+      {sol && <Learn word={sol} />}      
       {feedback.Success ? (
         <Yess>
           {yess()} {yess()} {yess()}
@@ -78,7 +79,6 @@ export const Feedback = (props: { feedback: PracticeFeedback }) => {
           translation(s)
         </BadNews>
       )}
-      {sol && <Learn word={sol} />}
       <PracticeNext />
     </React.Fragment>
   );

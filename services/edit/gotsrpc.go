@@ -157,22 +157,22 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		}
 		gotsrpc.Reply([]interface{}{saveWordState, saveWordErr}, callStats, r, w)
 		return
-	case "SetDeclination":
+	case "SetDeclinations":
 		var (
-			arg_declination github_com_janhalfar_vocablion_services.Declination
+			arg_declinations []github_com_janhalfar_vocablion_services.Declination
 		)
-		args = []interface{}{&arg_declination}
+		args = []interface{}{&arg_declinations}
 		err := gotsrpc.LoadArgs(&args, callStats, r)
 		if err != nil {
 			gotsrpc.ErrorCouldNotLoadArgs(w)
 			return
 		}
 		executionStart := time.Now()
-		setDeclinationState, setDeclinationErr := p.service.SetDeclination(w, r, arg_declination)
+		setDeclinationsState, setDeclinationsErr := p.service.SetDeclinations(w, r, arg_declinations)
 		if callStats != nil {
 			callStats.Execution = time.Now().Sub(executionStart)
 		}
-		gotsrpc.Reply([]interface{}{setDeclinationState, setDeclinationErr}, callStats, r, w)
+		gotsrpc.Reply([]interface{}{setDeclinationsState, setDeclinationsErr}, callStats, r, w)
 		return
 	case "SetGender":
 		var (

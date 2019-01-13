@@ -16,7 +16,7 @@ type ServiceGoTSRPCClient interface {
 	LoadWord(id string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	NewWord(unit string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SaveWord() (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
-	SetDeclination(declination github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetDeclinations(declinations []github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetGender(gender github_com_janhalfar_vocablion_services.Gender) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetGenitive(genitive string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetType(wordType github_com_janhalfar_vocablion_services.WordType) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
@@ -99,10 +99,10 @@ func (tsc *tsrpcServiceGoTSRPCClient) SaveWord() (state EditState, err *github_c
 	return
 }
 
-func (tsc *tsrpcServiceGoTSRPCClient) SetDeclination(declination github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
-	args := []interface{}{declination}
+func (tsc *tsrpcServiceGoTSRPCClient) SetDeclinations(declinations []github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{declinations}
 	reply := []interface{}{&state, &err}
-	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetDeclination", args, reply)
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetDeclinations", args, reply)
 	return
 }
 

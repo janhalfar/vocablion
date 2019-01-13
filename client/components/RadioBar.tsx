@@ -23,10 +23,21 @@ const RadioButton = styled.div`
   font-weight: normal;
 `;
 
+const active = (selection: string | string[], val:string) => {
+  switch(true) {
+    case selection === null: return false;
+    case selection === undefined: return false;
+    case typeof selection == "object": return selection.indexOf(val) > -1;
+    case typeof selection == "string": return selection == val;
+    default: false;
+  }
+  // typeof props.selection == "string" ? o.value === props.selection : props.selection.indexOf(o.value)>-1
+}
+
 export const RadioBar = (props: {
   bgColor: string;
   options: Option[];
-  selection: any;
+  selection: string | string[];
   onChangeSelection: (newSelection: any) => void;
 }) => (
   <Bar>
@@ -36,9 +47,19 @@ export const RadioBar = (props: {
         key={"value-"+o.value}
         onClick={e => {
           e.preventDefault();
-          props.onChangeSelection(o.value);
+          if(typeof props.selection == "string") {
+            props.onChangeSelection(o.value);
+          } else {
+            let selection = props.selection.map(e => e);
+            if(props.selection.indexOf(o.value) > -1) {
+              selection = selection.filter(e => e !== o.value)
+            } else {
+              selection.push(o.value);
+            }
+            props.onChangeSelection(selection);
+          }
         }}
-        active={o.value === props.selection}
+        active={ active(props.selection, o.value)}
       >
         {o.label}
       </RadioButton>

@@ -1,5 +1,13 @@
 import React from "react";
-import { Page, Title, Input, ButtonSmall, wordInfo, wordType } from "../components/components";
+import {
+  Page,
+  Title,
+  Input,
+  ButtonSmall,
+  wordInfo,
+  wordType,
+  gotoWord
+} from "../components/components";
 import { getClient } from "../transport";
 import { ServiceClient } from "../services/words";
 import { ServiceClient as ServiceClientEdit } from "../services/edit";
@@ -8,7 +16,6 @@ import { State } from "../store";
 import { connect } from "react-redux";
 import { actionWordsSet, actionEditSet } from "../actions";
 import styled from "styled-components";
-import { Word } from "../services/vo/services";
 import Router from "next/router";
 
 const client = getClient(ServiceClient);
@@ -38,7 +45,7 @@ const Cell = styled.td`
 
 export interface WordsProps extends WordsState {
   search: (query: string) => void;
-  deleteWord: (query:string, id:string) => void;
+  deleteWord: (query: string, id: string) => void;
 }
 
 class InternalWords extends React.Component<WordsProps> {
@@ -72,23 +79,18 @@ class InternalWords extends React.Component<WordsProps> {
               <Row key={word.ID}>
                 <Cell>{word.Word}</Cell>
                 <Cell>{word.Unit}</Cell>
-                <Cell>{wordType(word)} - {wordInfo(word)}</Cell>
+                <Cell>
+                  {wordType(word)} - {wordInfo(word)}
+                </Cell>
                 <Cell>{word.Translations.join(", ")}</Cell>
                 <Cell>
-                  <ButtonSmall
-                    onClick={_e => {
-                      Router.push({
-                        pathname: "/edit",
-                        query: { wordID: word.ID }
-                      });
-                    }}
-                  >
+                  <ButtonSmall onClick={_e => gotoWord(word.ID)}>
                     edit
                   </ButtonSmall>
                   <ButtonSmall
                     danger
                     onClick={e => {
-                      if(confirm("really detele: " + word.Word)) {
+                      if (confirm("really detele: " + word.Word)) {
                         // console.log("deleting", props.Query, word.ID);
                         props.deleteWord(props.Query, word.ID);
                       }
@@ -106,8 +108,6 @@ class InternalWords extends React.Component<WordsProps> {
   }
 }
 
-
-
 const Words = connect(
   (state: State) => state.words,
   dispatch => {
@@ -118,7 +118,7 @@ const Words = connect(
       search: async (query: string) => {
         des(await client.search(query));
       },
-      deleteWord: async (query:string, id:string) => {
+      deleteWord: async (query: string, id: string) => {
         dispatch(actionEditSet(await editClient.deleteWord(id)));
         des(await client.search(query));
       }

@@ -83,9 +83,12 @@ func validateEditState(state EditState) (valid bool) {
 		return
 	}
 	switch true {
+	case state.Word.Adverb != nil:
+		// validated with basics above
+		return true
 	case state.Word.Adjective != nil:
 		a := state.Word.Adjective
-		return a.Declination != "" && a.Gender != ""
+		return len(a.Declinations) > 0 && a.Gender != ""
 	case state.Word.Noun != nil:
 		return state.Word.Noun.Declination != "" && state.Word.Noun.Gender != "" && state.Word.Noun.Genitive != ""
 	case state.Word.Verb != nil:
@@ -173,15 +176,18 @@ func reduceActionSetDeclination(state EditState, action ActionSetDeclination) (n
 	newState = state
 	switch true {
 	case newState.Word.Noun != nil:
-		newState.Word.Noun.Declination = action.Declination
+		newState.Word.Noun.Declination = action.Declinations[0]
 	case newState.Word.Adjective != nil:
-		switch action.Declination {
-		case services.DeclinationA, services.DeclinationO, services.DeclinationThird:
-			newState.Word.Adjective.Declination = action.Declination
-		default:
-			err = errors.New("invalid declination for adjective")
-			return
+		for _, decl := range action.Declinations {
+			switch decl {
+			case services.DeclinationA, services.DeclinationO, services.DeclinationThird:
+				// ok
+			default:
+				err = errors.New("invalid declination for adjective")
+				return
+			}
 		}
+		newState.Word.Adjective.Declinations = action.Declinations
 	}
 	return
 }
@@ -244,12 +250,19 @@ func reduceActionSetType(state EditState, action ActionSetType) (newState EditSt
 	case services.WordTypeAdjective:
 		newState.Word = &services.Word{
 			Translations: []string{},
-			Adjective:    &services.Adjective{},
+			Adjective: &services.Adjective{
+				Declinations: []services.Declination{},
+			},
 		}
 	case services.WordTypeVerb:
 		newState.Word = &services.Word{
 			Translations: []string{},
 			Verb:         &services.Verb{},
+		}
+	case services.WordTypeAdverb:
+		newState.Word = &services.Word{
+			Translations: []string{},
+			Adverb:       &services.Adverb{},
 		}
 	case services.WordTypeNoun:
 		newState.Word = &services.Word{
