@@ -13,6 +13,9 @@ const RadioButton = styled.div`
   display: inline-block;
   padding: 0.3rem;
   margin:.3rem;
+  :first-child {
+    margin-left: 0;
+  }
   background-color: ${props => props.active ? "#626de6" : props.bgColor };
   color: white;
   ${ props => props.active && "border: 1px solid blue;"}
