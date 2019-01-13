@@ -208,6 +208,23 @@ func (p *ServiceGoTSRPCProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		}
 		gotsrpc.Reply([]interface{}{setGenitiveState, setGenitiveErr}, callStats, r, w)
 		return
+	case "SetPhraseInfo":
+		var (
+			arg_info string
+		)
+		args = []interface{}{&arg_info}
+		err := gotsrpc.LoadArgs(&args, callStats, r)
+		if err != nil {
+			gotsrpc.ErrorCouldNotLoadArgs(w)
+			return
+		}
+		executionStart := time.Now()
+		setPhraseInfoState, setPhraseInfoErr := p.service.SetPhraseInfo(w, r, arg_info)
+		if callStats != nil {
+			callStats.Execution = time.Now().Sub(executionStart)
+		}
+		gotsrpc.Reply([]interface{}{setPhraseInfoState, setPhraseInfoErr}, callStats, r, w)
+		return
 	case "SetType":
 		var (
 			arg_wordType github_com_janhalfar_vocablion_services.WordType

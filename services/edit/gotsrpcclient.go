@@ -19,6 +19,7 @@ type ServiceGoTSRPCClient interface {
 	SetDeclinations(declinations []github_com_janhalfar_vocablion_services.Declination) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetGender(gender github_com_janhalfar_vocablion_services.Gender) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetGenitive(genitive string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
+	SetPhraseInfo(info string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetType(wordType github_com_janhalfar_vocablion_services.WordType) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetUnit(unit string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
 	SetVerbConjugation(conjugation github_com_janhalfar_vocablion_services.Conjugation) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error)
@@ -117,6 +118,13 @@ func (tsc *tsrpcServiceGoTSRPCClient) SetGenitive(genitive string) (state EditSt
 	args := []interface{}{genitive}
 	reply := []interface{}{&state, &err}
 	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetGenitive", args, reply)
+	return
+}
+
+func (tsc *tsrpcServiceGoTSRPCClient) SetPhraseInfo(info string) (state EditState, err *github_com_janhalfar_vocablion_services.ServiceError, clientErr error) {
+	args := []interface{}{info}
+	reply := []interface{}{&state, &err}
+	clientErr = tsc.Client.Call(tsc.URL, tsc.EndPoint, "SetPhraseInfo", args, reply)
 	return
 }
 

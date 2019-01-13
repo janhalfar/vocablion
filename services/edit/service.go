@@ -125,6 +125,14 @@ func (s *Service) SetDeclinations(
 	return s.sessionDispatch(w, r, ActionSetDeclination{Declinations: declinations})
 }
 
+func (s *Service) SetPhraseInfo(
+	w http.ResponseWriter,
+	r *http.Request,
+	info string,
+) (state EditState, err *services.ServiceError) {
+	return s.sessionDispatch(w, r, ActionSetPhraseInfo{Info: info})
+}
+
 func (s *Service) AddTranslation(
 	w http.ResponseWriter,
 	r *http.Request,

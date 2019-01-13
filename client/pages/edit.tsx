@@ -13,6 +13,7 @@ import { EditorVerb } from "../components/editor/EditorVerb";
 import { EditorAdjective } from "../components/editor/EditorAdjective";
 import { EditorUnit } from "../components/editor/EditorUnit";
 import { EditorAdverb } from "../components/editor/EditorAdverb";
+import { EditorPhrase } from "../components/editor/EditorPhrase";
 
 const editorForType = (wordType: string) => {
   switch (wordType) {
@@ -24,6 +25,8 @@ const editorForType = (wordType: string) => {
       return <EditorVerb />;
     case GoConst.WordTypeAdjective:
       return <EditorAdjective />;
+    case GoConst.WordTypePhrase:
+      return <EditorPhrase/>;
     default:
       return <h2>Select a word type</h2>;
   }
@@ -59,6 +62,7 @@ class InternalEdit extends React.Component<EditProps> {
               { label: "verb", value: GoConst.WordTypeVerb },
               { label: "adjective", value: GoConst.WordTypeAdjective },
               { label: "adverb", value: GoConst.WordTypeAdverb },
+              { label: "phrase", value: GoConst.WordTypePhrase },
             ]}
             selection={this.props.WordType}
           />

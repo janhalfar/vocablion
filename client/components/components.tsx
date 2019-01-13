@@ -164,6 +164,8 @@ export const wordInfo = (word: Word) => {
   switch (true) {
     case word.Adverb !== undefined:
       return "n/a";
+    case word.Phrase !== undefined:
+      return word.Phrase && word.Phrase.Info ? word.Phrase.Info : "n/a";
     case word.Noun !== undefined:
       return word.Noun!.Declination;
     case word.Verb !== undefined:
@@ -177,6 +179,8 @@ export const wordInfo = (word: Word) => {
 
 export const wordType = (word: Word) => {
   switch (true) {
+    case word.Phrase !== undefined:
+      return "phrase";
     case word.Adverb !== undefined:
       return "adverb";
     case word.Noun !== undefined:

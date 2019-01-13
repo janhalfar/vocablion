@@ -47,6 +47,8 @@ func Reducer(
 		state, err = reduceActionVerbSetExceptions(state, action.(ActionVerbSetExceptions))
 	case ActionVerbSetConjugation:
 		state, err = reduceActionVerbSetConjugation(state, action.(ActionVerbSetConjugation))
+	case ActionSetPhraseInfo:
+		state, err = reduceActionSetPhraseInfo(state, action.(ActionSetPhraseInfo))
 	case actionLoadTheDarnWord:
 		state, err = reduceactionLoadTheDarnWord(state, action.(actionLoadTheDarnWord))
 	}
@@ -83,6 +85,9 @@ func validateEditState(state EditState) (valid bool) {
 		return
 	}
 	switch true {
+	case state.Word.Phrase != nil:
+		// validated with basics above
+		return true
 	case state.Word.Adverb != nil:
 		// validated with basics above
 		return true
@@ -108,6 +113,19 @@ func reduceActionVerbSetExceptions(state EditState, action ActionVerbSetExceptio
 	newState.Word.Verb.PPP = action.PPP
 	newState.Word.Verb.Perfect = action.Perfect
 	newState.Word.Verb.Praeteritum = action.Praeteritum
+	return
+}
+func reduceActionSetPhraseInfo(state EditState, action ActionSetPhraseInfo) (newState EditState, err error) {
+	if state.Word == nil {
+		err = errors.New("word is not set")
+		return
+	}
+	if state.Word.Phrase == nil {
+		err = errors.New("word is not a phrase")
+		return
+	}
+	newState = state
+	newState.Word.Phrase.Info = action.Info
 	return
 }
 func reduceActionVerbSetConjugation(state EditState, action ActionVerbSetConjugation) (newState EditState, err error) {
@@ -258,6 +276,11 @@ func reduceActionSetType(state EditState, action ActionSetType) (newState EditSt
 		newState.Word = &services.Word{
 			Translations: []string{},
 			Verb:         &services.Verb{},
+		}
+	case services.WordTypePhrase:
+		newState.Word = &services.Word{
+			Translations: []string{},
+			Phrase:       &services.Phrase{},
 		}
 	case services.WordTypeAdverb:
 		newState.Word = &services.Word{

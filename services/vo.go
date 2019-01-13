@@ -89,6 +89,10 @@ type Adjective struct {
 	Gender       Gender
 }
 
+type Phrase struct {
+	Info string
+}
+
 type Pronoun struct {
 }
 
@@ -100,6 +104,7 @@ const (
 	WordTypeAdverb    WordType = "WordTypeAdverb"
 	WordTypePronoun   WordType = "WordTypePronoun"
 	WordTypeAdjective WordType = "WordTypeAdjective"
+	WordTypePhrase    WordType = "WordTypePhrase"
 )
 
 type Word struct {
@@ -107,16 +112,18 @@ type Word struct {
 	Unit         string
 	Word         string
 	Translations []string
-	// Shapes       []string
-	Noun      *Noun      `json:",omitempty"`
-	Verb      *Verb      `json:",omitempty"`
-	Adjective *Adjective `json:",omitempty"`
-	Pronoun   *Pronoun   `json:",omitempty"`
-	Adverb    *Adverb    `json:",omitempty"`
+	Noun         *Noun      `json:",omitempty"`
+	Verb         *Verb      `json:",omitempty"`
+	Adjective    *Adjective `json:",omitempty"`
+	Pronoun      *Pronoun   `json:",omitempty"`
+	Adverb       *Adverb    `json:",omitempty"`
+	Phrase       *Phrase    `json:",omitempty"`
 }
 
 func (w *Word) GetWordType() (wt WordType) {
 	switch true {
+	case w.Phrase != nil:
+		wt = WordTypePhrase
 	case w.Noun != nil:
 		wt = WordTypeNoun
 	case w.Adjective != nil:

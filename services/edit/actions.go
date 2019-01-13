@@ -44,6 +44,10 @@ type ActionSetDeclination struct {
 	Declinations []services.Declination
 }
 
+type ActionSetPhraseInfo struct {
+	Info string
+}
+
 type ActionSetGenitive struct {
 	Genitive string
 }

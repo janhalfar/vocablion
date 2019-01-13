@@ -66,6 +66,12 @@ export class ServiceClient {
 		if(err) { throw err }
 		return response[0]
 	}
+	async setPhraseInfo(info:string):Promise<github_com_janhalfar_vocablion_services_edit.EditState> {
+		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_edit.EditState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("SetPhraseInfo", [info])
+		let err = response[1];
+		if(err) { throw err }
+		return response[0]
+	}
 	async setType(wordType:string):Promise<github_com_janhalfar_vocablion_services_edit.EditState> {
 		let response = await this.transport<{0:github_com_janhalfar_vocablion_services_edit.EditState; 1:github_com_janhalfar_vocablion_services.ServiceError}>("SetType", [wordType])
 		let err = response[1];

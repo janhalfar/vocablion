@@ -21,6 +21,10 @@ export interface Noun {
 	Gender:string;
 	Declination:string;
 }
+// github.com/janhalfar/vocablion/services.Phrase
+export interface Phrase {
+	Info:string;
+}
 // github.com/janhalfar/vocablion/services.Pronoun
 export interface Pronoun {
 }
@@ -47,6 +51,7 @@ export interface Word {
 	Adjective?:github_com_janhalfar_vocablion_services.Adjective;
 	Pronoun?:github_com_janhalfar_vocablion_services.Pronoun;
 	Adverb?:github_com_janhalfar_vocablion_services.Adverb;
+	Phrase?:github_com_janhalfar_vocablion_services.Phrase;
 }
 // constants from github.com/janhalfar/vocablion/services
 export const GoConst = {
@@ -71,6 +76,7 @@ export const GoConst = {
 	WordTypeAdjective : "WordTypeAdjective",
 	WordTypeAdverb : "WordTypeAdverb",
 	WordTypeNoun : "WordTypeNoun",
+	WordTypePhrase : "WordTypePhrase",
 	WordTypePronoun : "WordTypePronoun",
 	WordTypeVerb : "WordTypeVerb",
 }
