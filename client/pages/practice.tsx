@@ -29,13 +29,13 @@ class InternalPractice extends React.Component<PracticeProps> {
         return (
           <React.Fragment>
             <Learn word={this.props.LearnWord!} />
+            <PracticeNext/>
           </React.Fragment>
         );
       case this.props.Feedback !== null:
         return (
           <React.Fragment>
             <Feedback feedback={this.props.Feedback!} />
-            <PracticeNext />
           </React.Fragment>
         );
       default:
