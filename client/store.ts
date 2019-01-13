@@ -4,7 +4,7 @@ import thunkMiddleware from "redux-thunk";
 import { editReducer } from "./reducers/edit";
 import { EditState } from "./services/vo/edit";
 import { LocalFieldsState, localFieldsReducer } from "./reducers/localFields";
-import { PracticeState } from "./services/vo/practice";
+import { PracticeState } from "./reducers/practice";
 import { practiceReducer } from "./reducers/practice";
 import { WordsState } from "./services/vo/words";
 import { wordsReducer } from "./reducers/words";

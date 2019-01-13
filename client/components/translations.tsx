@@ -84,7 +84,7 @@ export const EditorTranslations = connect(
 // const clientPractice = getClient(PracticeClient);
 
 export const PracticeTranslations = connect(
-  (state: State) => ({ translations: state.practice.Translations, localFields: state.localFields }),
+  (state: State) => ({ translations: state.practice.translations, localFields: state.localFields }),
   dispatch => {
     const des = (newState: PracticeState) => {
       dispatch(actionPracticeSet(newState));
