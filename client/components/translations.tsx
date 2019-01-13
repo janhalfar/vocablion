@@ -16,7 +16,8 @@ const InternalEditorTranslations = (
     translations: string[];
     localFields: LocalFieldsState;
     setTranslation: (translation: string) => void;
-    submitTranslation: () => void;
+    submitTranslation?: (translation:string) => void;
+    submitTranslations?: (translations:string[]) => void;
     deleteTranslation: (translation: string) => void;
   }
 ) => {
@@ -26,7 +27,11 @@ const InternalEditorTranslations = (
       <form
         onSubmit={e => {
           e.preventDefault();
-          props.submitTranslation(props.translations.concat(props.localFields.translation));
+          if(props.submitTranslation) {
+            props.submitTranslation(props.localFields.translation);
+          } else if(props.submitTranslations) {
+            props.submitTranslations(props.translations.concat(props.localFields.translation));
+          }
         }}
       >
         <Input
@@ -55,7 +60,7 @@ const clientEdit = getClient(EditClient);
 
 export const EditorTranslations = connect(
   (state: State) => ({ 
-    translations: state.edit.Word.Translations, 
+    translations: state.edit.Word ? state.edit.Word.Translations : [], 
     localFields: state.localFields 
   }),
   dispatch => {
@@ -77,10 +82,10 @@ export const EditorTranslations = connect(
   }
 )(InternalEditorTranslations);
 
-const clientPractice = getClient(PracticeClient);
+// const clientPractice = getClient(PracticeClient);
 
 export const PracticeTranslations = connect(
-  (state: State) => ({ translations: state.practice.translations, localFields: state.localFields }),
+  (state: State) => ({ translations: state.practice.Translations, localFields: state.localFields }),
   dispatch => {
     const des = (newState: PracticeState) => {
       dispatch(actionPracticeSet(newState));
@@ -89,7 +94,7 @@ export const PracticeTranslations = connect(
       setTranslation: async (translation: string) => {
         dispatch(actionSetLocalFields({ translation }));
       },
-      submitTranslation: async (translations: string[]) => {
+      submitTranslations: async (translations: string[]) => {
         dispatch(actionPracticeSetTranslations(translations))
         dispatch(actionSetLocalFields({ translation: "" }));
         //des(await client.addTranslation(translation));
