@@ -47,6 +47,11 @@ const Logo = styled.h1`
   /* font-size: 1rem; */
 `;
 
+export const Form = styled.div`
+  width: 100%;
+  max-width: 640px;
+`;
+
 export const Button = styled.button`
   cursor: pointer;
   display: block;

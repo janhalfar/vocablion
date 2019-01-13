@@ -14,12 +14,18 @@ import { getClient } from "../transport";
 import { LocalFieldsState } from "../reducers/localFields";
 import styled from "styled-components";
 
-const Translations = styled.div``;
+const Translations = styled.div`
+  margin: .5rem 0 1rem 0;
+`;
 const Translation = styled.div`
   padding: 0.3rem;
   font-size: 1.5rem;
+  border-top: 1px solid darkgray;
+  :first-child {
+    border-top: none;
+  }
   :nth-child(odd) {
-    background-color: #efefef;
+    background-color: lightgray;
   }
   span {
     float: left;

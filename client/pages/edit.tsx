@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Page, Title } from "../components/components";
+import { Page, Title, Form } from "../components/components";
 import { State } from "../store";
 import { RadioBar } from "../components/RadioBar";
 import { actionEditSet, actionEditReset } from "../actions";
@@ -47,20 +47,22 @@ class InternalEdit extends React.Component<EditProps> {
     return (
       <Page>
         <Title>Edit</Title>
-        <RadioBar
-          onChangeSelection={s => {
-            this.props.setWordType(s);
-          }}
-          options={[
-            { label: "Noun", value: GoConst.WordTypeNoun },
-            { label: "Verb", value: GoConst.WordTypeVerb },
-            { label: "Adjective", value: GoConst.WordTypeAdjective },
-            { label: "Pronoun", value: GoConst.WordTypePronoun }
-          ]}
-          selection={this.props.WordType}
-        />
-        {this.props.WordType != "" ? <EditorUnit /> : undefined}
-        {editorForType(this.props.WordType)}
+        <Form>
+          <RadioBar
+            onChangeSelection={s => {
+              this.props.setWordType(s);
+            }}
+            options={[
+              { label: "Noun", value: GoConst.WordTypeNoun },
+              { label: "Verb", value: GoConst.WordTypeVerb },
+              { label: "Adjective", value: GoConst.WordTypeAdjective },
+              { label: "Pronoun", value: GoConst.WordTypePronoun }
+            ]}
+            selection={this.props.WordType}
+          />
+          {this.props.WordType != "" ? <EditorUnit /> : undefined}
+          {editorForType(this.props.WordType)}
+        </Form>
       </Page>
     );
   }

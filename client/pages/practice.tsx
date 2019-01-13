@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Title } from "../components/components";
+import { Page, Title, Form } from "../components/components";
 import { PracticeNext } from "../components/practice/Next";
 import { State } from "../store";
 import { connect } from "react-redux";
@@ -46,7 +46,9 @@ class InternalPractice extends React.Component<PracticeProps> {
     return (
       <Page>
         <Title>Practice</Title>
-        {this.renderContent()}
+        <Form>
+          {this.renderContent()}
+        </Form>
       </Page>
     );
   }
