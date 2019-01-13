@@ -41,7 +41,7 @@ class InternalPractice extends React.Component<PracticeProps> {
     }
     return (
       <Page>
-        <Title>Übersetze</Title>
+        <Title>Practice</Title>
         <Question>{props.Question}</Question>
         {props.Feedback ? (
           <div>
