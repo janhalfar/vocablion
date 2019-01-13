@@ -10,6 +10,7 @@ import {
 import {Event} from '../../services/vo/status';
 
 import moment from "moment";
+import { BadgeColors, Badge } from "./Badge";
 
 export const EventsChart = (props: {
   events: Event[];
@@ -98,16 +99,17 @@ export const EventsChart = (props: {
       data={data}
       stackOffset="sign"
       margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+      style={{backgroundColor: "white"}}
     >
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <ReferenceLine y={0} stroke="#000" />
-      <Bar dataKey="right" fill="#0f0" stackId="stack" />
-      <Bar dataKey="wrong" fill="#f00" stackId="stack" />
-      <Bar dataKey="create" fill="#8884d8" stackId="stack" />
-      <Bar dataKey="update" fill="#82ca9d" stackId="stack" />
-      <Bar dataKey="deleteWord" fill="#0ff" stackId="stack" />
-      <Bar dataKey="learn" fill="#000" stackId="stack" />
+      <Bar dataKey="right" fill={BadgeColors.right} stackId="stack" />
+      <Bar dataKey="wrong" fill={BadgeColors.wrong} stackId="stack" />
+      <Bar dataKey="create" fill={BadgeColors.create} stackId="stack" />
+      <Bar dataKey="update" fill={BadgeColors.update} stackId="stack" />
+      <Bar dataKey="deleteWord" fill={BadgeColors.delete} stackId="stack" />
+      <Bar dataKey="learn" fill={BadgeColors.learn} stackId="stack" />
     </BarChart>
     </React.Fragment>
   );
