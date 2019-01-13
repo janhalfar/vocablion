@@ -13,12 +13,15 @@ const RadioButton = styled.div`
   display: inline-block;
   padding: 0.3rem;
   margin:.3rem;
-  background-color: ${props => props.active ? "#626de6" : "grey"};
+  background-color: ${props => props.active ? "#626de6" : props.bgColor };
   color: white;
+  ${ props => props.active && "border: 1px solid blue;"}
   border-radius: 0.3rem;
+  font-weight: normal;
 `;
 
 export const RadioBar = (props: {
+  bgColor: string;
   options: Option[];
   selection: any;
   onChangeSelection: (newSelection: any) => void;
@@ -26,6 +29,7 @@ export const RadioBar = (props: {
   <Bar>
     {props.options.map(o => (
       <RadioButton
+        bgColor={props.bgColor ? props.bgColor : "gray"}
         key={"value-"+o.value}
         onClick={e => {
           e.preventDefault();

@@ -46,6 +46,7 @@ const EditorNounInternal = (
       />
       <EditorGender/>
       <RadioBar
+        bgColor="#666881"
         onChangeSelection={s => {
           props.setPluralWord && props.setPluralWord(s);
         }}

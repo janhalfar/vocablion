@@ -18,6 +18,7 @@ const InternalEditorDeclinations = (
 ) => {
   return (
       <RadioBar
+        bgColor="#707064"
         onChangeSelection={s => {
           props.setDeclination(s);
         }}

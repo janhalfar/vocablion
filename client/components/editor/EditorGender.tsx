@@ -17,6 +17,7 @@ const InternalEditorGender = (
 ) => {
   return (
     <RadioBar
+      bgColor="#89724b"
       onChangeSelection={s => {
         props.setGender(s);
       }}
