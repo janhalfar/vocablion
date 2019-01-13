@@ -66,7 +66,7 @@ func main() {
 	// edit
 	e, errEdit := edit.NewService(p, eventsStore, sessionStore)
 	must(errEdit)
-	serviceProxy := edit.NewDefaultServiceGoTSRPCProxy(e, []string{})
+	editProxy := edit.NewDefaultServiceGoTSRPCProxy(e, []string{})
 
 	// practice
 	ps, errPractice := practice.NewService(p, eventsStore, sessionStore)
@@ -85,7 +85,7 @@ func main() {
 
 	s := &Server{
 		handlers: map[string]http.Handler{
-			serviceProxy.EndPoint:  serviceProxy,
+			editProxy.EndPoint:     editProxy,
 			practiceProxy.EndPoint: practiceProxy,
 			wordsProxy.EndPoint:    wordsProxy,
 			statusProxy.EndPoint:   statusProxy,
