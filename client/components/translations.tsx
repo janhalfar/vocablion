@@ -6,7 +6,6 @@ import { actionEditSet, actionSetLocalFields, actionPracticeSet, actionPracticeS
 import { Input, List, ListItem, ButtonSmall } from "./components";
 import { EditState } from "../services/vo/edit";
 import { ServiceClient as EditClient } from "../services/edit";
-import { ServiceClient as PracticeClient } from "../services/practice";
 import { getClient } from "../transport";
 import { LocalFieldsState } from "../reducers/localFields";
 import { PracticeState } from "../services/vo/practice";
