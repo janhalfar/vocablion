@@ -1,6 +1,8 @@
 package practice
 
 import (
+	"time"
+
 	"github.com/janhalfar/vocablion/events"
 	"github.com/janhalfar/vocablion/services"
 )
@@ -24,4 +26,13 @@ type PracticeState struct {
 	Feedback     *Feedback
 	Word         *services.Word `json:"-"`
 	LearnWord    *services.Word
+}
+
+type StatsWord struct {
+	Phase          int
+	PhaseHistory   []time.Time
+	SuccessHistory []time.Time
+	FailHistory    []time.Time
+	LearnHistory   []time.Time
+	Next           time.Time
 }

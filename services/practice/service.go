@@ -2,6 +2,7 @@ package practice
 
 import (
 	http "net/http"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -13,6 +14,7 @@ import (
 type Service struct {
 	sessionStore *services.SessionStore
 	eventsStore  *events.Store
+	stats        *stats
 }
 
 const StoreKey = "practice"
@@ -22,11 +24,28 @@ func NewService(
 	eventsStore *events.Store,
 	sessionStore *services.SessionStore,
 ) (s *Service, err error) {
+	stats, errSt := newStats(p.GetCollVocab())
+	if errSt != nil {
+		err = errSt
+		return
+	}
 	s = &Service{
 		sessionStore: sessionStore,
 		eventsStore:  eventsStore,
+		stats:        stats,
 	}
 	eventsStore.Subscribe([]events.Type{EventTypeAnswer}, eventsSubscriber(p))
+	since, errSince := time.Parse("2006-01-02", "2018-12-23")
+	if errSince != nil {
+		err = errSince
+		return
+	}
+	eventsStore.ReplayAndSubscribe(since, []events.Subscription{
+		events.NewSubscription([]events.Type{
+			EventTypeAnswer,
+			EventTypeLearn,
+		}, s.stats.eventsSubscriber),
+	})
 	return
 }
 
