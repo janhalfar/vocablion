@@ -49,6 +49,22 @@ func NewService(
 	return
 }
 
+func castState(stateMap map[string]interface{}) (state PracticeState, err *services.ServiceError) {
+	newStateInterface, ok := stateMap[StoreKey]
+	if !ok {
+		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}
+		return
+	}
+	switch newStateInterface.(type) {
+	case PracticeState:
+		state = newStateInterface.(PracticeState)
+	default:
+		err = services.InternalErr(errors.New("new state type error"))
+		return
+	}
+	return
+}
+
 func (s *Service) sessionDispatch(
 	w http.ResponseWriter,
 	r *http.Request,
@@ -60,18 +76,21 @@ func (s *Service) sessionDispatch(
 		err = services.InternalErr(errors.Wrap(e, "dispatch error"))
 		return
 	}
-
-	newStateInterface, ok := newStateMap[StoreKey]
-	if !ok {
-		err = &services.ServiceError{Message: "store state is missing: " + StoreKey}
+	newState, errCast := castState(newStateMap)
+	if errCast != nil {
+		err = errCast
 		return
 	}
-	switch newStateInterface.(type) {
-	case PracticeState:
-		newState = newStateInterface.(PracticeState)
-	default:
-		err = services.InternalErr(errors.New("new state type error"))
-		return
+	if newState.Word != nil {
+		// stats
+		newStateMap, e = s.sessionStore.Dispatch(w, r, actionUpdateStats{
+			stats: s.stats.getStats(newState.Word.ID.Hex()),
+		})
+		if e != nil {
+			err = services.InternalErr(errors.Wrap(e, "dispatch error"))
+			return
+		}
+		return castState(newStateMap)
 	}
 	return
 }

@@ -26,6 +26,7 @@ type PracticeState struct {
 	Feedback     *Feedback
 	Word         *services.Word `json:"-"`
 	LearnWord    *services.Word
+	Stats        *StatsWord
 }
 
 type StatsWord struct {

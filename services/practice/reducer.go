@@ -28,6 +28,9 @@ func Reducer(
 	case actionFeedback:
 		newState, err = reduceActionFeedback(state, action.(actionFeedback))
 		return
+	case actionUpdateStats:
+		newState, err = reduceActionUpdateStats(state, action.(actionUpdateStats))
+		return
 	default:
 		newState = state
 	}
@@ -48,6 +51,11 @@ func reduceActionLearn(state PracticeState, action ActionLearn) (newState Practi
 func reduceActionFeedback(state PracticeState, action actionFeedback) (newState PracticeState, err error) {
 	newState = state
 	newState.Feedback = action.feedback
+	return
+}
+func reduceActionUpdateStats(state PracticeState, action actionUpdateStats) (newState PracticeState, err error) {
+	newState = state
+	newState.Stats = action.stats
 	return
 }
 func reduceActionLoadWord(state PracticeState, action ActionLoadWord) (newState PracticeState, err error) {

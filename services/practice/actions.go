@@ -19,3 +19,7 @@ type ActionLearn struct {
 type actionFeedback struct {
 	feedback *Feedback
 }
+
+type actionUpdateStats struct {
+	stats *StatsWord
+}

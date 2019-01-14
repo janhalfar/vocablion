@@ -21,6 +21,16 @@ export interface PracticeState {
 	Translations:string[];
 	Feedback?:github_com_janhalfar_vocablion_services_practice.Feedback;
 	LearnWord?:github_com_janhalfar_vocablion_services.Word;
+	Stats?:github_com_janhalfar_vocablion_services_practice.StatsWord;
+}
+// github.com/janhalfar/vocablion/services/practice.StatsWord
+export interface StatsWord {
+	Phase:number;
+	PhaseHistory:time.Time[];
+	SuccessHistory:time.Time[];
+	FailHistory:time.Time[];
+	LearnHistory:time.Time[];
+	Next:time.Time;
 }
 // constants from github.com/janhalfar/vocablion/services/practice
 export const GoConst = {
