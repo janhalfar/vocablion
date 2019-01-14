@@ -77,6 +77,22 @@ func (s *Store) Subscribe(types []Type, subscriber Subscriber) (err error) {
 	return
 }
 
+func (s *Store) ReplayAndSubscribe(since time.Time, subscriptions []Subscription) (err error) {
+	errReplay := s.Replay(since, subscriptions)
+	if errReplay != nil {
+		err = errReplay
+		return
+	}
+	for _, sub := range subscriptions {
+		errSub := s.Subscribe(sub.types, sub.subscriber)
+		if errSub != nil {
+			err = errSub
+			return
+		}
+	}
+	return
+}
+
 func (s *Store) Replay(since time.Time, subscriptions []Subscription) (err error) {
 	types := []Type{}
 	eventMap := map[Type][]Subscriber{}
