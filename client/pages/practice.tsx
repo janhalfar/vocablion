@@ -10,6 +10,7 @@ import { ServiceClient } from "../services/practice";
 import { Feedback } from "../components/practice/Feedback";
 import { Learn } from "../components/practice/Learn";
 import { Practice } from "../components/practice/Practice";
+import { Stats } from "../components/practice/Stats";
 
 interface PracticeProps extends PracticeState {
   answer: (translations: string[]) => void;
@@ -29,7 +30,7 @@ class InternalPractice extends React.Component<PracticeProps> {
         return (
           <React.Fragment>
             <Learn word={this.props.LearnWord!} />
-            <PracticeNext/>
+            <PracticeNext />
           </React.Fragment>
         );
       case this.props.Feedback !== null:
@@ -39,16 +40,15 @@ class InternalPractice extends React.Component<PracticeProps> {
           </React.Fragment>
         );
       default:
-        return <Practice/>;
+        return <Practice />;
     }
   }
   render() {
     return (
       <Page>
         <Title>Practice</Title>
-        <Form>
-          {this.renderContent()}
-        </Form>
+        <Form>{this.renderContent()}</Form>
+        {this.props.Stats && <Stats {...this.props.Stats!} />}
       </Page>
     );
   }
