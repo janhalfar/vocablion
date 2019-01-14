@@ -27,7 +27,7 @@ const UBlock = (props: { label: string; times?: Time[] }) => (
   <Block>
     <h3>{props.label}</h3>
     <ul>
-      {props.times && props.times.reverse().map(t => <li>{moment(t).fromNow()}</li>)}
+      {props.times && props.times.reverse().map((t,i) => <li key={i}>{moment(t).fromNow()}</li>)}
     </ul>
   </Block>
 );
