@@ -1,7 +1,6 @@
 package events
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/globalsign/mgo"
@@ -27,14 +26,14 @@ func NewSubscription(
 type Subscriptions []Subscription
 
 func (s Subscriptions) fire(event *Event) (err error) {
-	fmt.Println("firing", event.Type, event.Time, event.UserID, event.ID)
+	// fmt.Println("firing", event.Type, event.Time, event.UserID, event.ID)
 SubLoop:
 	for _, sub := range s {
 		for _, eventType := range sub.types {
-			fmt.Println("event.Type == eventType", event.Type == eventType)
+			// fmt.Println("event.Type == eventType", event.Type == eventType)
 			if event.Type == eventType {
 				err = sub.subscriber(event)
-				fmt.Println("called subscriber", err)
+				// fmt.Println("called subscriber", err)
 				if err != nil {
 					return
 				}
